@@ -1,5 +1,3 @@
-
-
 function Button({label, type, variant, className}) {
     const base = "w-full p-3 cursor-pointer rounded"
     const variants = {

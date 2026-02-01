@@ -1,8 +1,8 @@
-import { ForgotPassword } from "./pages/ForgotPassword"
+import { Home } from "./pages/Home"
 
 function App() {
   return (
-    <ForgotPassword />
+    <Home />
   )
 }
 
