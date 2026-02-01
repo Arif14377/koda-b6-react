@@ -1,6 +1,6 @@
-import { BiCoffee } from 'react-icons/bi'; // Icon Logo
-import { FiSearch, FiShoppingCart } from 'react-icons/fi'; // Icon Search & Cart
+import { FiSearch, FiShoppingCart } from 'react-icons/fi';
 import brandWhite from "../assets/images/brand-white.png"
+import { RxHamburgerMenu } from "react-icons/rx"
 
 function Navbar ({variants}) {
     const base = "grid grid-cols-2 px-6 py-4 text-white"
@@ -21,7 +21,7 @@ function Navbar ({variants}) {
             <FiSearch className="text-xl cursor-pointer hover:text-orange-500 transition" />
             <FiShoppingCart className="text-xl cursor-pointer hover:text-orange-500 transition" />
             
-            <div className="flex gap-4 ml-2">
+            <div className="hidden md:flex gap-4 ml-2">
                 <a className="px-5 py-2 border border-gray-500 rounded text-sm hover:border-white transition cursor-pointer">
                     SignIn
                 </a>
@@ -29,6 +29,7 @@ function Navbar ({variants}) {
                     Sign Up
                 </a>
             </div>
+            <RxHamburgerMenu className='md:hidden block' size={24}/>
         </div>
     </nav>
     );
