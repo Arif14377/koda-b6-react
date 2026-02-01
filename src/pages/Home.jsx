@@ -11,6 +11,9 @@ import gorengan from "../assets/images/gorengan.png"
 import caramelMacchiato from "../assets/images/caramel-macchiato.png"
 import affogato from "../assets/images/cappucino.png"
 import stores from "../assets/images/stores-map.png"
+import viez from "../assets/images/img-viez.png"
+import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
+import bgTesti from "../assets/images/bg-testimonial.png"
 
 export function Home() {
     const data = [
@@ -161,6 +164,34 @@ export function Home() {
                     <ReusableTitle><span>Visit Our Store</span> in the Spot on the Map Below</ReusableTitle>
                     <p>You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
                     <img src={stores} alt="store location" />
+                </div>
+                {/* Testimonial */}
+                <div className="flex flex-col md:flex-row gap-4 px-16 py-12" style={{ backgroundImage: `url(${bgTesti})` }}>
+                    <img src={viez} alt="Viez Robert - Customer" />
+                    <div className="flex flex-col gap-5 text-white">
+                        <p>Testimonial</p>
+                        <h2 className="text-white font-medium text-4xl">Viez Robert</h2>
+                        <p className="text-[#FF8906]">Manager coffee shop</p>
+                        <p>“Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!</p>
+                        <div className="flex gap-2 items-center">
+                            <IoStar className="text-[#FF8906]"/>
+                            <IoStar className="text-[#FF8906]"/>
+                            <IoStar className="text-[#FF8906]"/>
+                            <IoStar className="text-[#FF8906]"/>
+                            <IoStar className="text-[#FF8906]"/>
+                            <span>5.0</span>
+                        </div>
+                        <div className="flex gap-2">
+                            <IoArrowBackCircleSharp size={45}/>
+                            <IoArrowForwardCircle size={45} color="#FF8906"/>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="w-8 h-2.5 bg-[#FF8906] rounded-full cursor-pointer"></span>
+                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
