@@ -14,6 +14,7 @@ import stores from "../assets/images/stores-map.png"
 import viez from "../assets/images/img-viez.png"
 import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
 import bgTesti from "../assets/images/bg-testimonial.png"
+import Footer from "../components/Footer"
 
 export function Home() {
     const data = [
@@ -194,6 +195,7 @@ export function Home() {
                     </div>
                 </div>
             </main>
+            <Footer/>
         </div>
     )
 }
