@@ -10,6 +10,7 @@ import cappucino from "../assets/images/cappucino.png"
 import gorengan from "../assets/images/gorengan.png"
 import caramelMacchiato from "../assets/images/caramel-macchiato.png"
 import affogato from "../assets/images/cappucino.png"
+import stores from "../assets/images/stores-map.png"
 
 export function Home() {
     const data = [
@@ -154,6 +155,12 @@ export function Home() {
                             })
                         }
                     </div>
+                </div>
+                {/* Map Stores */}
+                <div className="flex flex-col px-8 md:px-16 lg:px-24 py-12 gap-12 items-center">
+                    <ReusableTitle><span>Visit Our Store</span> in the Spot on the Map Below</ReusableTitle>
+                    <p>You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
+                    <img src={stores} alt="store location" />
                 </div>
             </main>
         </div>
