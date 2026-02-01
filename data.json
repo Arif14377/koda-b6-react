@@ -1,52 +1,52 @@
 [
-    {
-        "id": 1,
-        "alt": "Hazelnut Latte",
-        "name": "Hazelnut Latte",
-        "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-        "price": 30000,
-        "promoPrice": 26000,
-        "imgUrl" : "/assets/images/image 27.png",
-        "flashSale": true
-    },
-    {
-        "id": 2,
-        "alt": "Cappucino",
-        "name": "Cappucino",
-        "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-        "price": 35000,
-        "promoPrice": 29000,
-        "imgUrl" : "/assets/images/image 22.png",
-        "flashSale": false
-    },
-    {
-        "id": 3,
-        "alt": "Gorengan",
-        "name": "Gorengan",
-        "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-        "price": 31000,
-        "promoPrice": 25000,
-        "imgUrl" : "/assets/images/image 30.png",
-        "flashSale": true
-    },
-    {
-        "id": 4,
-        "alt": "Caramel Macchiato",
-        "name": "Caramel Macchiato",
-        "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-        "price": 27000,
-        "promoPrice": 24000,
-        "imgUrl" : "/assets/images/image 31.png",
-        "flashSale": true
-    },
-    {
-        "id": 5,
-        "alt": "Affogato",
-        "name": "Affogato",
-        "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-        "price": 20000,
-        "promoPrice": 17000,
-        "imgUrl" : "/assets/images/image 31.png",
-        "flashSale": true
-    }
-]
+        {
+            "id": 1,
+            "alt": "Hazelnut Latte",
+            "name": "Hazelnut Latte",
+            "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            "price": 30000,
+            "promoPrice": 26000,
+            "imgUrl": "../assets/images/hazelnut-latte.png",
+            "flashSale": true
+        },
+        {
+            "id": 2,
+            "alt": "Cappucino",
+            "name": "Cappucino",
+            "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            "price": 35000,
+            "promoPrice": 29000,
+            "imgUrl": "../assets/images/cappucino.png",
+            "flashSale": false
+        },
+        {
+            "id": 3,
+            "alt": "Gorengan",
+            "name": "Gorengan",
+            "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            "price": 31000,
+            "promoPrice": 25000,
+            "imgUrl": "../assets/images/gorengan.png",
+            "flashSale": true
+        },
+        {
+            "id": 4,
+            "alt": "Caramel Macchiato",
+            "name": "Caramel Macchiato",
+            "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            "price": 27000,
+            "promoPrice": 24000,
+            "imgUrl": "../assets/images/caramel-macchiato.png",
+            "flashSale": true
+        },
+        {
+            "id": 5,
+            "alt": "Affogato",
+            "name": "Affogato",
+            "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            "price": 20000,
+            "promoPrice": 17000,
+            "imgUrl": "../assets/images/cappucino.png",
+            "flashSale": true
+        }
+    ]
