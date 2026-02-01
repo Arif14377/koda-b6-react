@@ -4,8 +4,68 @@ import imgBanner from "../assets/images/img-banner.png"
 import ReusableTitle from "../components/ReusableTitle"
 import ambassador from "../assets/images/ambassador.png"
 import { FaCheckCircle } from "react-icons/fa";
+import ProductCard from "../components/ProductCard"
+import hazelnut from "../assets/images/hazelnut-latte.png"
+import cappucino from "../assets/images/cappucino.png"
+import gorengan from "../assets/images/gorengan.png"
+import caramelMacchiato from "../assets/images/caramel-macchiato.png"
+import affogato from "../assets/images/cappucino.png"
 
 export function Home() {
+    const data = [
+        {
+            id: 1,
+            alt: "Hazelnut Latte",
+            name: "Hazelnut Latte",
+            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            price: 30000,
+            promoPrice: 26000,
+            imgUrl: hazelnut,
+            flashSale: true
+        },
+        {
+            id: 2,
+            alt: "Cappucino",
+            name: "Cappucino",
+            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            price: 35000,
+            promoPrice: 29000,
+            imgUrl: cappucino,
+            flashSale: false
+        },
+        {
+            id: 3,
+            alt: "Gorengan",
+            name: "Gorengan",
+            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            price: 31000,
+            promoPrice: 25000,
+            imgUrl: gorengan,
+            flashSale: true
+        },
+        {
+            id: 4,
+            alt: "Caramel Macchiato",
+            name: "Caramel Macchiato",
+            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            price: 27000,
+            promoPrice: 24000,
+            imgUrl: caramelMacchiato,
+            flashSale: true
+        },
+        {
+            id: 5,
+            alt: "Affogato",
+            name: "Affogato",
+            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+            price: 20000,
+            promoPrice: 17000,
+            imgUrl: affogato,
+            flashSale: true
+        }
+    ]
+
+
     return (
         <div>
             <Navbar variants={"black"}/>
@@ -80,8 +140,20 @@ export function Home() {
                     </div>
                 </div>
                 {/* Recommended Product */}
-                <div>
-                    <div></div>
+                <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 gap-8">
+                    <div className="flex flex-col items-center gap-6">
+                        <ReusableTitle>Here is People’s <span>Favorite</span></ReusableTitle>
+                        <p>Let’s choose and have a bit taste of poeple’s favorite. It might be yours too!</p>
+                    </div>
+                    <div className="grid md:grid-cols-4 gap-4">
+                        {
+                            data.map((data, idx)=>{
+                                return (
+                                    <ProductCard key={data.id} image={data.imgUrl} title={data.name} desc={data.description} price={data.price}/>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </main>
         </div>
