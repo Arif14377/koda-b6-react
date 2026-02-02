@@ -1,6 +1,8 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
-const FilterSidebar = () => {
+const FilterSidebar = ({ onSearch }) => {
+  const { register } = useForm({ defaultValues: { search: "" } })
   return (
     <div className="bg-black text-white p-6 rounded-xl h-fit w-full lg:w-72 shadow-xl">
       <div className="flex justify-between items-center mb-6">
@@ -15,6 +17,7 @@ const FilterSidebar = () => {
             type="text" 
             placeholder="Search Your Product" 
             className="w-full bg-white text-sm text-gray-600 px-4 py-3 rounded-lg focus:outline-none"
+            {...register("search", { onChange: (e) => onSearch && onSearch(e.target.value) })}
         />
       </div>
 

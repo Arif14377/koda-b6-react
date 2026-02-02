@@ -7,10 +7,13 @@ import { IoArrowForward } from 'react-icons/io5';
 import { dataFetch } from "../lib/fetch";
 import Footer from "../components/Footer";
 import ReusableTitle from "../components/ReusableTitle"
+import { useState } from "react";
 
 function Product() {
     // Dummy Data Product
     const products = dataFetch
+    const [query, setQuery] = useState("")
+    const filtered = products.filter(product => product.name.toLowerCase().includes(query.toLowerCase()))
 
     return (
         <div>
@@ -28,19 +31,21 @@ function Product() {
                 <ReusableTitle>Today <span>Promo</span></ReusableTitle>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="shrink-0 hidden md:block">
-                        <FilterSidebar />
+                        <FilterSidebar onSearch={setQuery} />
                     </div>
                     <div className="flex-1">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {products.map(product => (
+                            {filtered.map(product => (
                                 <ProductCardUpdated
                                     key={product.id}
-                                    name={product.name}
+                                    id={product.id}
+                                    image={product.imgUrl}
+                                    title={product.name}
+                                    desc={product.description}
                                     rating={product.rating}
                                     oldPrice={product.oldPrice}
                                     price={product.price}
                                     isFlashSale={product.isFlashSale}
-                                    image={product.imgUrl}
                                 />
                             ))}
                         </div>
