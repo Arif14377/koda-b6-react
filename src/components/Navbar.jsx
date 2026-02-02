@@ -1,11 +1,11 @@
 import { FiSearch, FiShoppingCart } from 'react-icons/fi';
-import brandWhite from "../assets/images/brand-white.png"
+import brandWhite from "../../public/assets/images/brand-white.png"
 import { RxHamburgerMenu } from "react-icons/rx"
 
 function Navbar ({variants}) {
-    const base = "grid grid-cols-2 px-6 py-4 text-white"
+    const base = "fixed top-0 right-0 left-0 grid grid-cols-2 px-6 py-4 text-white z-10"
     const variant = {
-        transparant: "bg-[#20202067]",
+        transparant: "bg-[#20202080]",
         black: "bg-[#202020]"
     }
     return (

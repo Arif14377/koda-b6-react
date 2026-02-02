@@ -1,79 +1,23 @@
 import Navbar from "../components/Navbar"
-import bgBanner from "../assets/images/bg-gradient-black.png"
-import imgBanner from "../assets/images/img-banner.png"
+import bgBanner from "../../public/assets/images/bg-gradient-black.png"
+import imgBanner from "../../public/assets/images/img-banner.png"
 import ReusableTitle from "../components/ReusableTitle"
-import ambassador from "../assets/images/ambassador.png"
+import ambassador from "../../public/assets/images/ambassador.png"
 import { FaCheckCircle } from "react-icons/fa";
 import ProductCard from "../components/ProductCard"
-import hazelnut from "../assets/images/hazelnut-latte.png"
-import cappucino from "../assets/images/cappucino.png"
-import gorengan from "../assets/images/gorengan.png"
-import caramelMacchiato from "../assets/images/caramel-macchiato.png"
-import affogato from "../assets/images/cappucino.png"
-import stores from "../assets/images/stores-map.png"
-import viez from "../assets/images/img-viez.png"
+import stores from "../../public/assets/images/stores-map.png"
+import viez from "../../public/assets/images/img-viez.png"
 import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
-import bgTesti from "../assets/images/bg-testimonial.png"
+import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
+import { dataFetch } from "../lib/fetch"
 
-export function Home() {
-    const data = [
-        {
-            id: 1,
-            alt: "Hazelnut Latte",
-            name: "Hazelnut Latte",
-            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            price: 30000,
-            promoPrice: 26000,
-            imgUrl: hazelnut,
-            flashSale: true
-        },
-        {
-            id: 2,
-            alt: "Cappucino",
-            name: "Cappucino",
-            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            price: 35000,
-            promoPrice: 29000,
-            imgUrl: cappucino,
-            flashSale: false
-        },
-        {
-            id: 3,
-            alt: "Gorengan",
-            name: "Gorengan",
-            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            price: 31000,
-            promoPrice: 25000,
-            imgUrl: gorengan,
-            flashSale: true
-        },
-        {
-            id: 4,
-            alt: "Caramel Macchiato",
-            name: "Caramel Macchiato",
-            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            price: 27000,
-            promoPrice: 24000,
-            imgUrl: caramelMacchiato,
-            flashSale: true
-        },
-        {
-            id: 5,
-            alt: "Affogato",
-            name: "Affogato",
-            description: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            price: 20000,
-            promoPrice: 17000,
-            imgUrl: affogato,
-            flashSale: true
-        }
-    ]
-
+function Home() {
+    const data = dataFetch
 
     return (
         <div>
-            <Navbar variants={"black"}/>
+            <Navbar variants={"transparant"}/>
             <main>
                 {/* Hero Banner */}
                 <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -199,3 +143,5 @@ export function Home() {
         </div>
     )
 }
+
+export default Home

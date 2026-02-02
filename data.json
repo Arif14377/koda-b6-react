@@ -4,49 +4,54 @@
             "alt": "Hazelnut Latte",
             "name": "Hazelnut Latte",
             "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            "price": 30000,
-            "promoPrice": 26000,
+            "oldPrice": 30000,
+            "price": 26000,
             "imgUrl": "/assets/images/hazelnut-latte.png",
-            "flashSale": true
+            "isFlashSale": true,
+            "rating": 5.0
         },
         {
             "id": 2,
             "alt": "Cappucino",
             "name": "Cappucino",
             "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            "price": 35000,
-            "promoPrice": 29000,
+            "oldPrice": 35000,
+            "price": 29000,
             "imgUrl": "/assets/images/cappucino.png",
-            "flashSale": false
+            "isFlashSale": false,
+            "rating": 5.0
         },
         {
             "id": 3,
             "alt": "Gorengan",
             "name": "Gorengan",
             "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            "price": 31000,
-            "promoPrice": 25000,
+            "oldPrice": 31000,
+            "price": 25000,
             "imgUrl": "/assets/images/gorengan.png",
-            "flashSale": true
+            "isFlashSale": true,
+            "rating": 5.0
         },
         {
             "id": 4,
             "alt": "Caramel Macchiato",
             "name": "Caramel Macchiato",
             "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            "price": 27000,
-            "promoPrice": 24000,
+            "oldPrice": 27000,
+            "price": 24000,
             "imgUrl": "/assets/images/caramel-macchiato.png",
-            "flashSale": true
+            "isFlashSale": true,
+            "rating": 5.0
         },
         {
             "id": 5,
             "alt": "Affogato",
             "name": "Affogato",
             "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-            "price": 20000,
-            "promoPrice": 17000,
+            "oldPrice": 20000,
+            "price": 17000,
             "imgUrl": "/assets/images/cappucino.png",
-            "flashSale": true
+            "isFlashSale": true,
+            "rating": 5.0
         }
     ]

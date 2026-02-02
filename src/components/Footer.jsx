@@ -1,4 +1,4 @@
-import brandLogo from "../assets/images/brand-brown.png"
+import brandLogo from "../../public/assets/images/brand-brown.png"
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { TiSocialInstagram } from "react-icons/ti";
 
