@@ -2,7 +2,46 @@ import React from 'react';
 import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
 
-const ProductCardUpdated = ({ image, title, rating, oldPrice, price, isFlashSale }) => {
+const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, isFlashSale, onAdd }) => {
+  function addToCart() {
+    const pullCart = JSON.parse(localStorage.getItem("cart")) || []
+    const productToCart = {
+      id,
+      name: title,
+      price,
+      qty: 1,
+      size: "Regular",
+      variant: "Ice",
+      img: image,
+      isFlashSale: !!isFlashSale
+    }
+
+    const isExist = pullCart.find(item =>
+      Number(item.id) === Number(productToCart.id) &&
+      item.size === productToCart.size &&
+      item.variant === productToCart.variant
+    )
+
+    let newCart = []
+    if (isExist) {
+      newCart = pullCart.map(item => {
+        if (
+          Number(item.id) === Number(productToCart.id) &&
+          item.size === productToCart.size &&
+          item.variant === productToCart.variant
+        ) {
+          return { ...item, qty: (item.qty || 0) + productToCart.qty }
+        }
+        return item
+      })
+    } else {
+      newCart = [productToCart, ...pullCart]
+    }
+
+    localStorage.setItem("cart", JSON.stringify(newCart))
+    if (onAdd) onAdd(); else alert("Produk berhasil ditambahkan ke keranjang")
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col relative">
       
@@ -48,7 +87,7 @@ const ProductCardUpdated = ({ image, title, rating, oldPrice, price, isFlashSale
           <button className="flex-1 bg-orange-500 text-black font-bold py-2 rounded-lg hover:bg-orange-600 transition shadow-md">
             Buy
           </button>
-          <button className="border border-orange-500 text-orange-500 px-3 rounded-lg hover:bg-orange-50 transition">
+          <button onClick={addToCart} className="border border-orange-500 text-orange-500 px-3 rounded-lg hover:bg-orange-50 transition">
             <BsCart3 size={20} />
           </button>
         </div>

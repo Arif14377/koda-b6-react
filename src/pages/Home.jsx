@@ -5,6 +5,7 @@ import ReusableTitle from "../components/ReusableTitle"
 import ambassador from "../../public/assets/images/ambassador.png"
 import { FaCheckCircle } from "react-icons/fa";
 import ProductCard from "../components/ProductCard"
+import SimpleModal from "../components/SimpleModal"
 import stores from "../../public/assets/images/stores-map.png"
 import viez from "../../public/assets/images/img-viez.png"
 import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
@@ -12,13 +13,16 @@ import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
 import { dataFetch } from "../lib/fetch"
 import { Link } from "react-router-dom"
+import { useState } from "react"
 
 function Home() {
     const data = dataFetch
+    const [showModal, setShowModal] = useState(false)
 
     return (
         <div>
             <Navbar variants={"transparant"}/>
+            <SimpleModal open={showModal} message={"Produk berhasil ditambahkan ke keranjang"} onClose={() => setShowModal(false)} />
             <main>
                 {/* Hero Banner */}
                 <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -99,7 +103,7 @@ function Home() {
                         {
                             data.slice(0,4).map((data, idx)=>{
                                 return (
-                                    <ProductCard key={idx} id={idx} image={data.imgUrl} title={data.name} desc={data.description} price={data.price}/>
+                                    <ProductCard key={idx} id={idx} image={data.imgUrl} title={data.name} desc={data.description} price={data.price} onAdd={() => setShowModal(true)} />
                                 )
                             })
                         }

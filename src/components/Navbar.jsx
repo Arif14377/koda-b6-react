@@ -12,7 +12,7 @@ function Navbar ({variants}) {
     return (
     <nav className={`${base} ${variant[variants]}`} >
         <div className='flex justify-between items-center'>
-            <img src={brandWhite} alt="logo coffee shop" />
+            <Link to='/'><img src={brandWhite} alt="logo coffee shop" /></Link>
             <div className='hidden md:flex gap-8 text-sm font-medium'>
                 <Link to='/' className='text-white'>Home</Link>
                 <Link to='/product' className='text-gray-400 hover:text-white'>Product</Link>
@@ -20,13 +20,15 @@ function Navbar ({variants}) {
         </div>
         <div className="flex items-center justify-end gap-6">
             <FiSearch className="text-xl cursor-pointer hover:text-orange-500 transition" />
-            <FiShoppingCart className="text-xl cursor-pointer hover:text-orange-500 transition" />
+            <Link to="/checkout-product" className="text-xl cursor-pointer">
+                <FiShoppingCart />
+            </Link>
             
             <div className="hidden md:flex gap-4 ml-2">
                 <Link to='/login' className="px-5 py-2 border border-gray-500 rounded text-sm hover:border-white transition cursor-pointer">
                     SignIn
                 </Link>
-                <Link to='/register' className="px-5 py-2 bg-[#FF8906] rounded text-sm font-medium hover:bg-orange-600 transition shadow-lg shadow-orange-500/30 cursor-pointer">
+                <Link to='/register' className="px-5 py-2 bg-[#FF8906] rounded text-sm font-medium">
                     Sign Up
                 </Link>
             </div>

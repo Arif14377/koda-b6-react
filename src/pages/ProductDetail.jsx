@@ -7,6 +7,7 @@ import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { BsCart3 } from 'react-icons/bs';
+import SimpleModal from "../components/SimpleModal"
 
 function ProductDetail() {
     const [data, setData] = useState(dataFetch)
@@ -14,6 +15,7 @@ function ProductDetail() {
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
     const [cart, setCart] = useState([])
+    const [showModal, setShowModal] = useState(false)
     
     const {id} = useParams()
     const isProductExist = data.some(data => data.id === Number(id))
@@ -92,6 +94,7 @@ function ProductDetail() {
         setCart(newCart);
         localStorage.setItem("cart", JSON.stringify(newCart));
         setQty(1);
+        setShowModal(true);
     }
 
     return (
