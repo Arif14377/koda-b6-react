@@ -26,8 +26,8 @@ const ProductCard = ({ image, title, desc, price, id }) => {
         </div>
 
         {/* CTA */}
-        <div className="flex gap-3 mt-auto">
-          <Link to={`/product-detail/${id+1}`}><Button label={"Buy"} variant={"primary"}/></Link>
+        <div className="flex gap-3 w-full">
+          <Link to={`/product-detail/${id+1}`} className="flex-1"><Button label={"Buy"} variant={"primary"} className={"w-full"}/></Link>
           <button className="border border-orange-500 text-orange-500 p-2 rounded hover:bg-orange-50 transition">
             <BsCart3 size={20} />
           </button>

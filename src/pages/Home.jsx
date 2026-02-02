@@ -22,7 +22,7 @@ function Home() {
             <main>
                 {/* Hero Banner */}
                 <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12" style={{ backgroundImage: `url(${bgBanner})` }}>
+                    <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-17.5" style={{ backgroundImage: `url(${bgBanner})` }}>
                         <h1 className="text-5xl text-white md:text-6xl font-semibold leading-tight mb-6">
                         Start Your Day with <br />
                         Coffee and Good <br />
@@ -63,24 +63,24 @@ function Home() {
                 </div>
                 {/* Values Proposition */}
                 <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="w-2/3 flex flex-col justify-center items-center m-auto gap-6">
+                    <div className="w-2/3 flex flex-col justify-center items-center m-auto gap-2">
                         <ReusableTitle>We Provide <span>Good Coffee</span> and <span>Healthy Meals</span></ReusableTitle>
                         <p>You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
-                        <div className="flex flex-col gap-6 text-[#464646]">
+                        <div className="flex flex-col gap-2 text-[#464646]">
                             <div className="flex gap-4">
-                                <FaCheckCircle color="#2FAB73" size={20}/>
+                                <FaCheckCircle color="#2FAB73" className="w-5 h-5"/>
                                 <p>High quality beans</p>
                             </div>
                             <div className="flex gap-4">
-                                <FaCheckCircle color="#2FAB73" size={20}/>
+                                <FaCheckCircle color="#2FAB73" className="w-5 h-5"/>
                                 <p>Healthy meals, you can request the ingredients</p>
                             </div>
                             <div className="flex gap-4">
-                                <FaCheckCircle color="#2FAB73" size={20}/>
+                                <FaCheckCircle color="#2FAB73" className="w-5 h-5"/>
                                 <p>Chat with our staff to get better experience for ordering</p>
                             </div>
                             <div className="flex gap-4">
-                                <FaCheckCircle color="#2FAB73" size={20}/>
+                                <FaCheckCircle color="#2FAB73" className="w-5 h-5"/>
                                 <p>Free member card with a minimum purchase of IDR 200.000.</p>
                             </div>
                         </div>

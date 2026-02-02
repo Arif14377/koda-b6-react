@@ -10,7 +10,7 @@ import { BsCart3 } from 'react-icons/bs';
 
 function ProductDetail() {
     const [data, setData] = useState(dataFetch)
-    const [qty, setQty] = useState(0)
+    const [qty, setQty] = useState(1)
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
     const [cart, setCart] = useState([])
@@ -33,7 +33,7 @@ function ProductDetail() {
     
     // Fungsi tambah kurang qty product
     function minQty() {
-        if (qty > 0) {
+        if (qty > 1) {
             setQty(qty - 1)
         }
     }
@@ -44,10 +44,14 @@ function ProductDetail() {
 
     // fungsi tambah produk ke keranjang
     const pullCart = JSON.parse(localStorage.getItem("cart"))
+
     const productToCart = {
         id: dataToShow.id,
         name: dataToShow.name,
+        oldPrice: dataToShow.oldPrice,
         price: dataToShow.price,
+        img: dataToShow.imgUrl,
+        isFlashSale: dataToShow.isFlashSale,
         qty: qty,
         size: size,
         variant: variant
@@ -55,9 +59,7 @@ function ProductDetail() {
     let newCart = []
 
     function addToCart() {
-        if (qty <= 0) {
-            return
-        }
+
         if(!pullCart) {
             newCart.push(productToCart)
             setCart(newCart)
@@ -89,7 +91,7 @@ function ProductDetail() {
 
         setCart(newCart);
         localStorage.setItem("cart", JSON.stringify(newCart));
-        setQty(0);
+        setQty(1);
     }
 
     return (
@@ -161,7 +163,7 @@ function ProductDetail() {
                     </div>
                     <div className="flex gap-3 *:w-full">
                         <Link to={'/checkout-product'}><Button label={"Buy"} variant={"primary"} onClick={addToCart} /></Link>
-                        <button className="flex items-center gap-2 md:gap-4 justify-center border border-orange-500 text-orange-500 p-2 rounded hover:bg-orange-50 cursor-pointer" onClick={addToCart}>
+                        <button className="flex items-center gap-2 md:gap-4 justify-center border border-[#FF8906] text-[#FF8906] p-2 rounded hover:bg-orange-50 cursor-pointer" onClick={addToCart}>
                             <BsCart3 size={20} /> add to cart
                         </button>
                     </div>

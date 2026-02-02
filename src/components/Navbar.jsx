@@ -26,7 +26,7 @@ function Navbar ({variants}) {
                 <Link to='/login' className="px-5 py-2 border border-gray-500 rounded text-sm hover:border-white transition cursor-pointer">
                     SignIn
                 </Link>
-                <Link to='/register' className="px-5 py-2 bg-orange-500 rounded text-sm font-medium hover:bg-orange-600 transition shadow-lg shadow-orange-500/30 cursor-pointer">
+                <Link to='/register' className="px-5 py-2 bg-[#FF8906] rounded text-sm font-medium hover:bg-orange-600 transition shadow-lg shadow-orange-500/30 cursor-pointer">
                     Sign Up
                 </Link>
             </div>
