@@ -1,4 +1,4 @@
-function Button({label, type, variant, className}) {
+function Button({label, type, variant, className, onClick}) {
     const base = "w-full p-3 cursor-pointer rounded"
     const variants = {
         primary: "bg-orange-500 text-black hover:bg-orange-600",
@@ -6,7 +6,7 @@ function Button({label, type, variant, className}) {
     }
 
     return(
-        <button className={`${base} ${variants[variant]} ${className}`} type={type}>{label}</button>
+        <button className={`${base} ${variants[variant]} ${className}`} type={type} onClick={onClick}>{label}</button>
     )
 }
 

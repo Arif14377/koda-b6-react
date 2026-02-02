@@ -11,6 +11,7 @@ import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icon
 import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
 import { dataFetch } from "../lib/fetch"
+import { Link } from "react-router-dom"
 
 function Home() {
     const data = dataFetch
@@ -96,9 +97,9 @@ function Home() {
                     </div>
                     <div className="grid md:grid-cols-4 gap-4">
                         {
-                            data.map((data, idx)=>{
+                            data.slice(0,4).map((data, idx)=>{
                                 return (
-                                    <ProductCard key={data.id} image={data.imgUrl} title={data.name} desc={data.description} price={data.price}/>
+                                    <ProductCard key={idx} id={idx} image={data.imgUrl} title={data.name} desc={data.description} price={data.price}/>
                                 )
                             })
                         }

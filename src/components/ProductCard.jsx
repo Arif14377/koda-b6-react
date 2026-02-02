@@ -1,7 +1,8 @@
 import Button from "./Button"
 import { BsCart3 } from 'react-icons/bs';
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ image, title, desc, price }) => {
+const ProductCard = ({ image, title, desc, price, id }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col h-full">
       {/* Image */}
@@ -26,7 +27,7 @@ const ProductCard = ({ image, title, desc, price }) => {
 
         {/* CTA */}
         <div className="flex gap-3 mt-auto">
-          <Button label={"Buy"} variant={"primary"}/>
+          <Link to={`/product-detail/${id+1}`}><Button label={"Buy"} variant={"primary"}/></Link>
           <button className="border border-orange-500 text-orange-500 p-2 rounded hover:bg-orange-50 transition">
             <BsCart3 size={20} />
           </button>
