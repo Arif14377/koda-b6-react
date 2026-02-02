@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import { FaPlus } from "react-icons/fa6";
 import { CiCircleRemove } from "react-icons/ci";
+import { Link } from "react-router-dom";
 import BCA from "../../public/assets/images/bca.svg"
 import BRI from "../../public/assets/images/bri.svg"
 import DANA from "../../public/assets/images/dana.svg"
@@ -26,6 +27,32 @@ function CheckoutProduct() {
         localStorage.setItem("cart", JSON.stringify(newCart));
     }
 
+    function checkout() {
+        if (!cart || cart.length === 0) {
+            alert("Cart kosong")
+            return
+        }
+
+        const order = {
+            id: Date.now(),
+            items: cart,
+            subtotal: subTotal,
+            tax: tax,
+            total: grandTotal,
+            date: new Date().toISOString()
+        }
+
+        const pullHistory = JSON.parse(localStorage.getItem("history")) || []
+        const newHistory = [order, ...pullHistory]
+        localStorage.setItem("history", JSON.stringify(newHistory))
+
+        // clear cart
+        localStorage.removeItem("cart")
+        setCart([])
+
+        alert("Checkout berhasil, order disimpan ke history")
+    }
+
     return (
         // Item terluar
         <div>
@@ -37,9 +64,9 @@ function CheckoutProduct() {
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center w-full justify-between">
                             <h2 className="text-lg font-medium">Your Order</h2>
-                            <button className="flex items-center gap-2 bg-[#FF8906] px-2 py-1 rounded text-sm">
+                            <Link to="/product" className="flex items-center gap-2 bg-[#FF8906] px-2 py-1 rounded text-sm">
                                 <FaPlus/> Add Menu
-                            </button>
+                            </Link>
                         </div>
                         {/* Card product in cart */}
                         {cart && cart.length > 0 ? (
@@ -90,7 +117,7 @@ function CheckoutProduct() {
                                 <span>IDR {grandTotal.toLocaleString("id-ID")}</span>
                             </div>
                         </div>
-                        <button className="mt-6 w-full bg-[#FF8906] py-2 rounded font-semibold cursor-pointer">Checkout</button>
+                        <button onClick={checkout} className="mt-6 w-full bg-[#FF8906] py-2 rounded font-semibold cursor-pointer">Checkout</button>
                         <div className="mt-4 text-sm text-gray-500">
                             <p>We Accept</p>
                         </div>
