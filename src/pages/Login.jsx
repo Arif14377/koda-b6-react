@@ -1,12 +1,12 @@
-import image from "../assets/images/register.png"
-import brandLogo from "../assets/images/brand-brown.png"
+import image from "../../public/assets/images/register.png"
+import brandLogo from "../../public/assets/images/brand-brown.png"
 import InputAuth from "../components/InputAuth"
 import Button from "../components/Button";
 import { handleLogin } from "../Auth/login";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
 
-export function Login() {
+function Login() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 min-h-screen">
             <div className="hidden md:block md:col-span-1">
@@ -28,3 +28,5 @@ export function Login() {
         </div>
     )
 }
+
+export default Login

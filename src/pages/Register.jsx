@@ -1,5 +1,5 @@
-import image from "../assets/images/register.png"
-import brandLogo from "../assets/images/brand-brown.png"
+import image from "../../public/assets/images/register.png"
+import brandLogo from "../../public/assets/images/brand-brown.png"
 import InputAuth from "../components/InputAuth"
 import { BsPerson } from "react-icons/bs";
 import Button from "../components/Button";
@@ -7,7 +7,7 @@ import { handleRegister } from "../Auth/register";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
 
-export function Register() {
+function Register() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 min-h-screen">
             <div className="hidden md:block md:col-span-1">
@@ -31,3 +31,5 @@ export function Register() {
         </div>
     )
 }
+
+export default Register
