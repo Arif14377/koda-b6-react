@@ -11,6 +11,7 @@ import { useState } from "react";
 
 function Register() {
     const [users, setUsers] = useState([])
+    const [error, setError] = useState("")
 
     const { handleSubmit, register, formState } = useForm({
         defaultValues: {
@@ -23,11 +24,12 @@ function Register() {
     })
 
     function submitRegister(values) {
-        const pullUser = JSON.parse(localStorage.getItem("users"))
+        const pullUser = JSON.parse(localStorage.getItem("users")) || []
         let newUsers = []
-        if (!pullUser) {
+        if (pullUser.length === 0) {
             if (values.password !== values.verifPassword) {
-                throw new Error("Password tidak match")
+                setError("Password tidak match")
+                return
             }
             newUsers = [values]
 
@@ -35,11 +37,13 @@ function Register() {
             const isExist = pullUser.some(user=>user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
 
             if(isExist) {
-                throw new Error("User sudah terdaftar")
+                setError("User sudah terdaftar")
+                return
             }
 
             if (values.password !== values.verifPassword) {
-                throw new Error("Password tidak match")
+                setError("Password tidak match")
+                return
             }
 
             newUsers = [values, ...pullUser]
@@ -47,6 +51,7 @@ function Register() {
 
         setUsers(newUsers)
         localStorage.setItem("users", JSON.stringify(newUsers))
+        setError("")
     }
 
     return (
@@ -59,11 +64,12 @@ function Register() {
                     <img src={brandLogo} alt="logo coffee shop" className="w-fit"/>
                     <h1 className="text-2xl font-medium text-shadow-orange-300">Register</h1>
                     <p>Fill out the form correctly</p>
+                    {error && <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</p>}
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit(submitRegister)}>
-                        <InputAuth type={"text"} id={"name"} label={"Name"} {...register("name")} iconInput={<BsPerson />} placeholder={"Enter Your Full Name"}/>
-                        <InputAuth type={"email"} id={"email"} label={"Email"} {...register("email")} iconInput={<AiOutlineMail />} placeholder={"Enter Your Email"}/>
-                        <InputAuth type={"password"} id={"password"} label={"Password"} {...register("password")} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
-                        <InputAuth type={"password"} id={"verifPassword"} label={"Confirm Password"} {...register("verifPassword")} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password Again"}/>
+                        <InputAuth type={"text"} id={"name"} label={"Name"} {...register("name", { onChange: () => setError("") })} iconInput={<BsPerson />} placeholder={"Enter Your Full Name"}/>
+                        <InputAuth type={"email"} id={"email"} label={"Email"} {...register("email", { onChange: () => setError("") })} iconInput={<AiOutlineMail />} placeholder={"Enter Your Email"}/>
+                        <InputAuth type={"password"} id={"password"} label={"Password"} {...register("password", { onChange: () => setError("") })} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
+                        <InputAuth type={"password"} id={"verifPassword"} label={"Confirm Password"} {...register("verifPassword", { onChange: () => setError("") })} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password Again"}/>
                         <Button label={"Register"} type={"submit"} variant={"primary"} className={""}/>
                     </form>
                     <p className="flex justify-center gap-2">Have An Account? <Link to='/login' className="text-orange-500">Login</Link></p>

@@ -7,10 +7,12 @@ import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate()
+    const [error, setError] = useState("")
     const {handleSubmit, register, formState} = useForm({
         defaultValues: {
             email: "",
@@ -19,15 +21,18 @@ function Login() {
     })
 
     function submitLogin(values) {
-        const pullUser = JSON.parse(localStorage.getItem("users"))
+        const pullUser = JSON.parse(localStorage.getItem("users")) || []
         const isExist = pullUser.find(user => user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
         console.log(values)
         if (!isExist) {
-            throw new Error("Email tidak terdaftar")
+            setError("Email tidak terdaftar")
+            return
         } else {
             if(isExist.password !== values.password) {
-                throw new Error("Password salah")
+                setError("Password salah")
+                return
             } else {
+                setError("")
                 navigate('/')
             }
         }
@@ -43,9 +48,10 @@ function Login() {
                     <img src={brandLogo} alt="logo coffee shop" className="w-fit"/>
                     <h1 className="text-2xl font-medium text-shadow-orange-300">Login</h1>
                     <p>Fill out the form correctly</p>
+                    {error && <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</p>}
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit(submitLogin)}>
-                        <InputAuth type={"email"} id={"email"} label={"Email"} {...register("email")} iconInput={<AiOutlineMail />} placeholder={"Enter Your Email"}/>
-                        <InputAuth type={"password"} id={"password"} label={"Password"} {...register("password")} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
+                        <InputAuth type={"email"} id={"email"} label={"Email"} {...register("email", { onChange: () => setError("") })} iconInput={<AiOutlineMail />} placeholder={"Enter Your Email"}/>
+                        <InputAuth type={"password"} id={"password"} label={"Password"} {...register("password", { onChange: () => setError("") })} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
                         <Button label={"Login"} type={"submit"} variant={"primary"} className={""}/>
                     </form>
                     <p className="flex justify-center gap-2">Not Have An Account? <Link to='/register' className="text-orange-500">Register</Link></p>
