@@ -6,6 +6,7 @@ import ProductCardUpdated from '../components/ProductCardUpdated';
 import { IoArrowForward } from 'react-icons/io5';
 import { dataFetch } from "../lib/fetch";
 import Footer from "../components/Footer";
+import ReusableTitle from "../components/ReusableTitle"
 
 function Product() {
     // Dummy Data Product
@@ -24,11 +25,7 @@ function Product() {
 
             {/* List Product */}
             <div className="md:px-30 px-16">
-                <div className="mb-8">
-                    <h2 className="text-3xl font-bold text-[#8B5E3C]">
-                    Our <span className="text-[#8B5E3C] border-b-4 border-orange-500">Product</span>
-                    </h2>
-                </div>
+                <ReusableTitle>Today <span>Promo</span></ReusableTitle>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="shrink-0 hidden md:block">
                         <FilterSidebar />

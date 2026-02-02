@@ -99,7 +99,7 @@ function Home() {
                         {
                             data.slice(0,4).map((data, idx)=>{
                                 return (
-                                    <ProductCard key={idx} id={idx} image={data.imgUrl} title={data.name} desc={data.description} price={data.price}/>
+                                    <ProductCardUpdated key={data.id} id={data.id} image={data.imgUrl} title={data.name} desc={data.description} price={data.price} isFlashSale={data.isFlashSale} rating={data.rating} />
                                 )
                             })
                         }

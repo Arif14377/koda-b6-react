@@ -14,7 +14,7 @@ const FilterSidebar = () => {
         <input 
             type="text" 
             placeholder="Search Your Product" 
-            className="w-full bg-gray-800 text-sm text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-orange-500"
+            className="w-full bg-white text-sm text-gray-600 px-4 py-3 rounded-lg focus:outline-none"
         />
       </div>
 

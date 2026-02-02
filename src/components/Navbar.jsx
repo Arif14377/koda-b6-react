@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx"
 import { Link } from 'react-router-dom';
 
 function Navbar ({variants}) {
-    const base = "fixed top-0 right-0 left-0 grid grid-cols-2 px-6 py-4 text-white z-10"
+    const base = "fixed top-0 right-0 left-0 grid grid-cols-2 px-6 py-4 text-white z-999"
     const variant = {
         transparant: "bg-[#20202080]",
         black: "bg-[#202020]"
