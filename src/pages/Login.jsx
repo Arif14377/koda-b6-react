@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import { handleLogin } from "../Auth/login";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 function Login() {
     return (
@@ -22,7 +23,7 @@ function Login() {
                         <InputAuth type={"password"} id={"password"} label={"Password"} name={"password"} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
                         <Button label={"Login"} type={"submit"} variant={"primary"} className={""}/>
                     </form>
-                    <p className="flex justify-center gap-2">Not Have An Account? <a className="text-orange-500" href="#">Register</a></p>
+                    <p className="flex justify-center gap-2">Not Have An Account? <Link to='/register' className="text-orange-500">Register</Link></p>
                 </div>
             </div>
         </div>
