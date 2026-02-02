@@ -7,8 +7,10 @@ import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate()
     const {handleSubmit, register, formState} = useForm({
         defaultValues: {
             email: "",
@@ -17,7 +19,18 @@ function Login() {
     })
 
     function submitLogin(values) {
+        const pullUser = JSON.parse(localStorage.getItem("users"))
+        const isExist = pullUser.find(user => user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
         console.log(values)
+        if (!isExist) {
+            throw new Error("Email tidak terdaftar")
+        } else {
+            if(isExist.password !== values.password) {
+                throw new Error("Password salah")
+            } else {
+                navigate('/')
+            }
+        }
     }
 
     return (

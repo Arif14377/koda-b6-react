@@ -32,7 +32,7 @@ function Register() {
             newUsers = [values]
 
         } else {
-            const isExist = pullUser.find(user=>user.email === values.email)
+            const isExist = pullUser.some(user=>user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
 
             if(isExist) {
                 throw new Error("User sudah terdaftar")
