@@ -3,21 +3,17 @@ import bgTitle from "../../public/assets/images/bg-header-product.jpg"
 import PromoSlider from '../components/PromoSlider';
 import FilterSidebar from '../components/FilterSidebar';
 import ProductCardUpdated from '../components/ProductCardUpdated';
-import SimpleModal from '../components/SimpleModal';
 import { IoArrowForward } from 'react-icons/io5';
-import { useState } from 'react';
 import { dataFetch } from "../lib/fetch";
 import Footer from "../components/Footer";
 
 function Product() {
     // Dummy Data Product
     const products = dataFetch
-    const [showModal, setShowModal] = useState(false)
 
     return (
         <div>
             <Navbar variants={"black"}/>
-            <SimpleModal open={showModal} message={"Produk berhasil ditambahkan ke keranjang"} onClose={() => setShowModal(false)} />
             {/* Header */}
             <div style={{backgroundImage:`url(${bgTitle})`}} className="flex items-center w-full h-76.25 mt-6 px-20">
                 <h1 className="text-white font-medium text-4xl w-4/6">We Provide Good Coffee and Healthy Meals</h1>
@@ -42,15 +38,12 @@ function Product() {
                             {products.map(product => (
                                 <ProductCardUpdated
                                     key={product.id}
-                                    id={product.id}
                                     name={product.name}
-                                    desc={product.description}
                                     rating={product.rating}
                                     oldPrice={product.oldPrice}
                                     price={product.price}
                                     isFlashSale={product.isFlashSale}
                                     image={product.imgUrl}
-                                    onAdd={() => setShowModal(true)}
                                 />
                             ))}
                         </div>

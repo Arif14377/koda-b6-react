@@ -2,7 +2,7 @@ import Button from "./Button"
 import { BsCart3 } from 'react-icons/bs';
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ image, title, desc, price, id, onAdd }) => {
+const ProductCard = ({ image, title, desc, price, id }) => {
   function addToCart() {
     const pullCart = JSON.parse(localStorage.getItem("cart")) || []
     const productToCart = {
@@ -38,11 +38,7 @@ const ProductCard = ({ image, title, desc, price, id, onAdd }) => {
     }
 
     localStorage.setItem("cart", JSON.stringify(newCart))
-    if (onAdd) {
-      onAdd()
-    } else {
-      alert("Produk berhasil ditambahkan ke keranjang")
-    }
+    alert("Produk berhasil ditambahkan ke keranjang")
   }
 
   return (
