@@ -22,7 +22,7 @@ function Home() {
             <Navbar variants={"transparant"}/>
             <main>
                 {/* Hero Banner */}
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-17.5" style={{ backgroundImage: `url(${bgBanner})` }}>
                         <h1 className="text-5xl text-white md:text-6xl font-semibold leading-tight mb-6">
                         Start Your Day with <br />
