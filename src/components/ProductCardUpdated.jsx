@@ -48,7 +48,7 @@ const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, i
       
       {/* Flash Sale Badge */}
       {isFlashSale && (
-        <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-br-lg z-10">
+        <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-full z-10">
             FLASH SALE!
         </div>
       )}
@@ -58,7 +58,7 @@ const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, i
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover hover:scale-110 transition duration-500"
+          className="w-full h-full object-cover"
         />
       </div>
 
@@ -88,11 +88,11 @@ const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, i
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
           <Link to={`/product-detail/${id}`} className="flex-1">
-            <button className="w-full bg-orange-500 text-black font-bold py-2 rounded-lg hover:bg-orange-600 transition shadow-md">
+            <button className="w-full bg-orange-500 text-black font-bold py-2 rounded-lg">
               Buy
             </button>
           </Link>
-          <button onClick={addToCart} className="border border-orange-500 text-orange-500 px-3 rounded-lg hover:bg-orange-50 transition">
+          <button onClick={addToCart} className="border border-orange-500 text-orange-500 px-3 rounded-lg">
             <BsCart3 size={20} />
           </button>
         </div>
