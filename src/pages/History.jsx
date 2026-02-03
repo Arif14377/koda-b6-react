@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
+import Footer from "../components/Footer"
 
 function History() {
     const [history, setHistory] = useState([])
@@ -39,10 +40,10 @@ function History() {
                     </div>
 
                     <div>
-                        <div className="bg-white p-4 rounded shadow">
+                        <div className="bg-white p-4 rounded shadow flex flex-col gap-4">
                             <h3 className="font-medium mb-2">Send Us Message</h3>
                             <p className="text-sm text-gray-600">if your unable to find answer or find your product quickly, please describe your problem and tell us. we will give you solution.</p>
-                            <a href="#" className="bg-[#FF8906] ">Send Message</a>
+                            <a href="#" className="bg-[#FF8906] py-1 px-2 rounded flex justify-center items-center">Send Message</a>
                         </div>
                     </div>
                 </div>

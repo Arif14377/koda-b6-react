@@ -2,6 +2,7 @@ import { FiSearch, FiShoppingCart } from 'react-icons/fi';
 import brandWhite from "../../public/assets/images/brand-white.png"
 import { RxHamburgerMenu } from "react-icons/rx"
 import { Link } from 'react-router-dom';
+import { MdOutlineHistoryEdu } from "react-icons/md";
 
 function Navbar ({variants}) {
     const base = "fixed top-0 right-0 left-0 grid grid-cols-2 px-6 py-4 text-white z-999"
@@ -19,7 +20,9 @@ function Navbar ({variants}) {
             </div>
         </div>
         <div className="flex items-center justify-end gap-6">
-            <FiSearch className="text-xl cursor-pointer hover:text-orange-500 transition" />
+            <Link to="/history">
+                <MdOutlineHistoryEdu className="text-xl cursor-pointer hover:text-orange-500" />
+            </Link>
             <Link to="/checkout-product" className="text-xl cursor-pointer">
                 <FiShoppingCart />
             </Link>
