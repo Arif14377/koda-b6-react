@@ -26,12 +26,14 @@ function Register() {
     function submitRegister(values) {
         const pullUser = JSON.parse(localStorage.getItem("users")) || []
         let newUsers = []
+        
         if (pullUser.length === 0) {
             if (values.password !== values.verifPassword) {
                 setError("Password tidak match")
                 return
             }
-            newUsers = [values]
+            const {verifPassword, ...toLocalStorage} = values
+            newUsers = [toLocalStorage]
 
         } else {
             const isExist = pullUser.some(user=>user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
@@ -45,10 +47,10 @@ function Register() {
                 setError("Password tidak match")
                 return
             }
-
-            newUsers = [values, ...pullUser]
+            const {verifPassword, ...toLocalStorage} = values
+            newUsers = [toLocalStorage, ...pullUser]
         }
-
+        
         setUsers(newUsers)
         localStorage.setItem("users", JSON.stringify(newUsers))
         setError("")

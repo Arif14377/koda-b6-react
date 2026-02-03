@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
+    const [currentUser, setCurrentUser] = useState([])
     const {handleSubmit, register, formState} = useForm({
         defaultValues: {
             email: "",
@@ -21,20 +22,21 @@ function Login() {
 
     function submitLogin(values) {
         const pullUser = JSON.parse(localStorage.getItem("users")) || []
-        const isExist = pullUser.find(user => user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
+        const existUser = pullUser.find(user => user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
         // console.log(values)
-        if (!isExist) {
+        if (!existUser) {
             setError("Email tidak terdaftar")
             return
-        } else {
-            if(isExist.password !== values.password) {
-                setError("Password salah")
-                return
-            } else {
-                setError("")
-                navigate('/')
-            }
         }
+        if(existUser.password !== values.password) {
+            setError("Password salah")
+            return
+        }
+        setCurrentUser([{email: existUser.email, name: existUser.name}])
+        console.log(currentUser) //Belum selesai, console masih kosong
+        alert("Login berhasil.")
+        setError("")
+        navigate('/')
     }
 
     return (
