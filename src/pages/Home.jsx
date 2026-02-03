@@ -12,6 +12,7 @@ import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
 import { dataFetch } from "../lib/fetch"
 import { Link } from "react-router-dom"
+import ProductCardUpdated from "../components/ProductCardUpdated"
 
 function Home() {
     const data = dataFetch

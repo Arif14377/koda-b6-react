@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import { FaPlus } from "react-icons/fa6";
 import { CiCircleRemove } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BCA from "../../public/assets/images/bca.svg"
 import BRI from "../../public/assets/images/bri.svg"
 import DANA from "../../public/assets/images/dana.svg"
@@ -12,6 +12,8 @@ import Paypal from "../../public/assets/images/paypal.svg"
 
 function CheckoutProduct() {
     const [cart, setCart] = useState([])
+    const navigate = useNavigate()
+
     useEffect(()=>{
         const pullCart = JSON.parse(localStorage.getItem("cart")) || []
         setCart(pullCart)
@@ -51,6 +53,7 @@ function CheckoutProduct() {
         setCart([])
 
         alert("Checkout berhasil, order disimpan ke history")
+        navigate('/history')
     }
 
     return (

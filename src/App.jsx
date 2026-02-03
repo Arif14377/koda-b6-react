@@ -4,6 +4,7 @@ import Register from "./pages/Register"
 import Product from "./pages/Product"
 import ProductDetail from "./pages/ProductDetail"
 import CheckoutProduct from "./pages/CheckoutProduct"
+import History from "./pages/History"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/checkout-product",
     element: <CheckoutProduct />
+  },
+  {
+    path: "/history",
+    element: <History />
   }
 ])
 
