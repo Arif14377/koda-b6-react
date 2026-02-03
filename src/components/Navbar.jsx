@@ -35,7 +35,7 @@ function Navbar ({variants}) {
                     Sign Up
                 </Link>
             </div>
-            <RxHamburgerMenu className='md:hidden block' size={24} onClick={}/>
+            <RxHamburgerMenu className='md:hidden block' size={24}/>
         </div>
     </nav>
     );
