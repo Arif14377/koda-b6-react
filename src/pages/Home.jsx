@@ -63,7 +63,7 @@ function Home() {
                     </div>
                 </div>
                 {/* Values Proposition */}
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="w-2/3 flex flex-col justify-center items-center m-auto gap-2">
                         <ReusableTitle>We Provide <span>Good Coffee</span> and <span>Healthy Meals</span></ReusableTitle>
                         <p>You can explore the menu that we provide with fun and have their own taste and make your day better.</p>

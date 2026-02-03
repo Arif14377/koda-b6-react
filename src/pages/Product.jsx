@@ -29,7 +29,7 @@ function Product() {
             {/* List Product */}
             <div className="md:px-30 px-16">
                 <ReusableTitle>Today <span>Promo</span></ReusableTitle>
-                <div className="flex flex-col lg:flex-row gap-8">
+                <div className="flex flex-col md:flex-row gap-8">
                     <div className="shrink-0 hidden md:block">
                         <FilterSidebar onSearch={setQuery} />
                     </div>
