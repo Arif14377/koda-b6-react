@@ -47,6 +47,7 @@ function History() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

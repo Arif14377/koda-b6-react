@@ -138,7 +138,7 @@ function CheckoutProduct() {
                     </div>
                 </div>
             </div>
-            
+            <Footer/>
         </div>
     )
 }
