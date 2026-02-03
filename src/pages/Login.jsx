@@ -2,7 +2,6 @@ import image from "../../public/assets/images/register.png"
 import brandLogo from "../../public/assets/images/brand-brown.png"
 import InputAuth from "../components/InputAuth"
 import Button from "../components/Button";
-import { handleLogin } from "../Auth/login";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -23,7 +22,7 @@ function Login() {
     function submitLogin(values) {
         const pullUser = JSON.parse(localStorage.getItem("users")) || []
         const isExist = pullUser.find(user => user.email.trim().toLowerCase() === values.email.trim().toLowerCase())
-        console.log(values)
+        // console.log(values)
         if (!isExist) {
             setError("Email tidak terdaftar")
             return
@@ -52,6 +51,7 @@ function Login() {
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit(submitLogin)}>
                         <InputAuth type={"email"} id={"email"} label={"Email"} {...register("email", { onChange: () => setError("") })} iconInput={<AiOutlineMail />} placeholder={"Enter Your Email"}/>
                         <InputAuth type={"password"} id={"password"} label={"Password"} {...register("password", { onChange: () => setError("") })} iconInput={<MdKey className="border rounded" />} placeholder={"Enter Your Password"}/>
+                        <Link to='/forgot-password' className="text-sm justify-self-end">Forgot Password</Link>
                         <Button label={"Login"} type={"submit"} variant={"primary"} className={""}/>
                     </form>
                     <p className="flex justify-center gap-2">Not Have An Account? <Link to='/register' className="text-orange-500">Register</Link></p>

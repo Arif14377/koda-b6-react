@@ -6,6 +6,7 @@ import ProductDetail from "./pages/ProductDetail"
 import CheckoutProduct from "./pages/CheckoutProduct"
 import History from "./pages/History"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { ForgotPassword } from "./pages/ForgotPassword"
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />
   },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword/>
+  },  
   {
     path: "/product",
     element: <Product/>
