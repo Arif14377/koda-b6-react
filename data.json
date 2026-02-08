@@ -8,7 +8,7 @@
             "price": 26000,
             "imgUrl": "/assets/images/hazelnut-latte.png",
             "isFlashSale": true,
-            "rating": 5.0
+            "rating": 4
         },
         {
             "id": 2,
@@ -19,7 +19,7 @@
             "price": 29000,
             "imgUrl": "/assets/images/cappucino.png",
             "isFlashSale": false,
-            "rating": 5.0
+            "rating": 5
         },
         {
             "id": 3,
@@ -30,7 +30,7 @@
             "price": 25000,
             "imgUrl": "/assets/images/gorengan.png",
             "isFlashSale": true,
-            "rating": 5.0
+            "rating": 5
         },
         {
             "id": 4,
@@ -41,7 +41,7 @@
             "price": 24000,
             "imgUrl": "/assets/images/caramel-macchiato.png",
             "isFlashSale": true,
-            "rating": 5.0
+            "rating": 3
         },
         {
             "id": 5,

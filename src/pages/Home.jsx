@@ -10,13 +10,22 @@ import viez from "../../public/assets/images/img-viez.png"
 import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
 import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
-import { dataFetch } from "../lib/fetch"
+import { getData } from "../lib/fetch"
 import { Link } from "react-router-dom"
 import ProductCardUpdated from "../components/ProductCardUpdated"
+import {useEffect, useState} from "react";
+
+const url = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
 
 function Home() {
-    const data = dataFetch
-
+    const [data, setData] = useState([])
+    useEffect(() => {
+        async function fetchData() {
+            const result = await getData(url)
+            setData(result)
+        }
+        fetchData()
+    }, []);
     return (
         <div>
             <Navbar variants={"transparant"}/>
@@ -94,13 +103,13 @@ function Home() {
                 <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 gap-8">
                     <div className="flex flex-col items-center gap-6">
                         <ReusableTitle>Here is People’s <span>Favorite</span></ReusableTitle>
-                        <p>Let’s choose and have a bit taste of poeple’s favorite. It might be yours too!</p>
+                        <p>Let’s choose and have a bit taste of people’s favorite. It might be yours too!</p>
                     </div>
                     <div className="grid md:grid-cols-4 gap-4">
                         {
-                            data.slice(0,4).map((data, idx)=>{
+                            data.slice(0,4).map((data)=>{
                                 return (
-                                    <ProductCardUpdated key={data.id} id={data.id} image={data.imgUrl} title={data.name} desc={data.description} price={data.price} isFlashSale={data.isFlashSale} rating={data.rating} />
+                                    <ProductCardUpdated key={data.id} {...data} />
                                 )
                             })
                         }

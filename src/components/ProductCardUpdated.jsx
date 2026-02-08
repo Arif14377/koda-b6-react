@@ -3,17 +3,20 @@ import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
-const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, isFlashSale }) => {
+const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isFlashSale, rating}) => {
+  const maxStar = 5;
+  const pullCart = JSON.parse(localStorage.getItem("cart")) || []
+  console.log("pull cart", pullCart)
+
   function addToCart() {
-    const pullCart = JSON.parse(localStorage.getItem("cart")) || []
     const productToCart = {
       id: id,
-      name: title,
+      name: name,
       price,
       qty: 1,
       size: "Regular",
       variant: "Ice",
-      img: image,
+      img: imgUrl,
       isFlashSale: isFlashSale
     }
 
@@ -56,24 +59,24 @@ const ProductCardUpdated = ({ id, image, title, desc, rating, oldPrice, price, i
       {/* Gambar */}
       <div className="h-48 overflow-hidden relative">
         <img 
-          src={image} 
-          alt={title} 
+          src={imgUrl}
+          alt={name}
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Content */}
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-xl font-bold text-gray-900 mb-1">{title}</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-1">{name}</h3>
         
         {/* Deskripsi Singkat */}
         <p className="text-gray-500 text-xs mb-3 line-clamp-2">
-            {desc || "You can explore the menu that we provide with fun and have their own taste."}
+            {description || "You can explore the menu that we provide with fun and have their own taste."}
         </p>
         
         {/* Rating */}
         <div className="flex items-center gap-1 mb-3 text-orange-500 text-sm">
-            {[1,2,3,4,5].map(i => <IoStar key={i} />)}
+            {Array.from({length: maxStar}).map((_, idx) => <IoStar key={id} className={idx < rating ? "text-yellow-500" : "text-gray-500"}/>)}
             <span className="text-gray-400 ml-1 text-xs">({rating})</span>
         </div>
 
