@@ -8,12 +8,15 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaFacebook } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
+import SsoSign from "../components/SosialSignButton.jsx";
 
 function Login() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
     const [currentUser, setCurrentUser] = useState([])
-    const {handleSubmit, register, formState} = useForm({
+    const {handleSubmit, register} = useForm({
         defaultValues: {
             email: "",
             password: ""
@@ -57,6 +60,16 @@ function Login() {
                         <Button label={"Login"} type={"submit"} variant={"primary"} className={""}/>
                     </form>
                     <p className="flex justify-center gap-2">Not Have An Account? <Link to='/register' className="text-orange-500">Register</Link></p>
+                    <div className={'flex flex-col md:flex-row w-full items-center md:justify-between gap-4'}>
+                        <SsoSign>
+                            <FaFacebook color={'#395185'}/>
+                            Facebook
+                        </SsoSign>
+                        <SsoSign>
+                            <FcGoogle />
+                            Google
+                        </SsoSign>
+                    </div>
                 </div>
             </div>
         </div>

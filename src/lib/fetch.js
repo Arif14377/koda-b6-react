@@ -5,7 +5,7 @@ async function getData(url) {
         const err = new Error("HTTP Error", resp.status)
         throw err
     }
-    const data = resp.json()
+    const data = await resp.json()
     return data
 }
 

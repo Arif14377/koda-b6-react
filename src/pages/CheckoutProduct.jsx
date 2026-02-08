@@ -9,6 +9,9 @@ import DANA from "../../public/assets/images/dana.svg"
 import GoPay from "../../public/assets/images/gopay.svg"
 import OVO from "../../public/assets/images/ovo.svg"
 import Paypal from "../../public/assets/images/paypal.svg"
+import Footer from "../components/Footer"
+
+const PPN = 0.1
 
 function CheckoutProduct() {
     const [cart, setCart] = useState([])
@@ -20,7 +23,7 @@ function CheckoutProduct() {
     }, [])
 
     const subTotal = cart.reduce((total, item) => total + (item.price * (item.qty || 1)), 0);
-    const tax = subTotal * 0.1;
+    const tax = subTotal * PPN;
     const grandTotal = subTotal + tax; 
 
     function removeItem(target) {
