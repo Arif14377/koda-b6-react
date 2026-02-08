@@ -4,14 +4,24 @@ import PromoSlider from '../components/PromoSlider';
 import FilterSidebar from '../components/FilterSidebar';
 import ProductCardUpdated from '../components/ProductCardUpdated';
 import { IoArrowForward } from 'react-icons/io5';
-import { dataFetch } from "../lib/fetch";
+import { getData } from "../lib/fetch";
 import Footer from "../components/Footer";
 import ReusableTitle from "../components/ReusableTitle"
-import { useState } from "react";
+import {useEffect, useState} from "react";
+
+const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
 
 function Product() {
     // Dummy Data Product
-    const products = dataFetch
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const result = await getData(URL);
+            setProducts(result)
+        }
+        fetchProducts();
+    }, []);
+
     const [query, setQuery] = useState("")
     const filtered = products.filter(product => product.name.toLowerCase().includes(query.toLowerCase()))
 
@@ -22,7 +32,7 @@ function Product() {
             <div style={{backgroundImage:`url(${bgTitle})`}} className="flex items-center w-full h-76.25 mt-6 px-20">
                 <h1 className="text-white font-medium text-4xl w-4/6">We Provide Good Coffee and Healthy Meals</h1>
             </div>
-            
+
             {/* Slider */}
             <PromoSlider/>
 

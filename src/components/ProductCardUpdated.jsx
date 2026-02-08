@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isFlashSale, rating}) => {
   const maxStar = 5;
   const pullCart = JSON.parse(localStorage.getItem("cart")) || []
-  console.log("pull cart", pullCart)
 
   function addToCart() {
     const productToCart = {
@@ -76,7 +75,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
         
         {/* Rating */}
         <div className="flex items-center gap-1 mb-3 text-orange-500 text-sm">
-            {Array.from({length: maxStar}).map((_, idx) => <IoStar key={id} className={idx < rating ? "text-yellow-500" : "text-gray-500"}/>)}
+            {Array.from({length: maxStar}).map((_, idx) => <IoStar key={idx} className={idx < rating ? "text-yellow-500" : "text-gray-500"}/>)}
             <span className="text-gray-400 ml-1 text-xs">({rating})</span>
         </div>
 

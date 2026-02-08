@@ -15,13 +15,13 @@ import { Link } from "react-router-dom"
 import ProductCardUpdated from "../components/ProductCardUpdated"
 import {useEffect, useState} from "react";
 
-const url = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
 
 function Home() {
     const [data, setData] = useState([])
     useEffect(() => {
         async function fetchData() {
-            const result = await getData(url)
+            const result = await getData(URL)
             setData(result)
         }
         fetchData()

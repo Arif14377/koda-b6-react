@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { dataFetch } from "../lib/fetch"
+import {useEffect, useState} from "react"
+import { getData } from "../lib/fetch"
 import Navbar from "../components/Navbar"
 import { useParams } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
@@ -8,13 +8,23 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { BsCart3 } from 'react-icons/bs';
 
+const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+
 function ProductDetail() {
-    const [data, setData] = useState(dataFetch)
+    const [data, setData] = useState([])
     const [qty, setQty] = useState(1)
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
-    const [cart, setCart] = useState([])
-    
+    const [_, setCart] = useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            const result = await getData(URL)
+            setData(result)
+        }
+        fetchData()
+    }, []);
+
     const {id} = useParams()
     const isProductExist = data.some(data => data.id === Number(id))
     const dataToShow = data.find(data => data.id === Number(id))
