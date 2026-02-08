@@ -49,7 +49,7 @@ function Product() {
                                 <ProductCardUpdated
                                     key={product.id}
                                     id={product.id}
-                                    image={product.imgUrl}
+                                    imgUrl={product.imgUrl}
                                     title={product.name}
                                     desc={product.description}
                                     rating={product.rating}
