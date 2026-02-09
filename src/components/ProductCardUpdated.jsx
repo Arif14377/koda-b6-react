@@ -7,6 +7,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
   const maxStar = 5;
   const pullCart = JSON.parse(localStorage.getItem("cart")) || []
 
+  //
   function addToCart() {
     const productToCart = {
       id: id,

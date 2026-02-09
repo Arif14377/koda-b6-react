@@ -12,8 +12,10 @@ import {useEffect, useState} from "react";
 const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
 
 function Product() {
-    // Dummy Data Product
+    // Dummy Data Product (hasil fetch JSON)
     const [products, setProducts] = useState([]);
+    const [filter, setFilter] = useState({ search: '', category: [], promo: [] });
+
     useEffect(() => {
         const fetchProducts = async () => {
             const result = await getData(URL);
@@ -22,8 +24,36 @@ function Product() {
         fetchProducts();
     }, []);
 
-    const [query, setQuery] = useState("")
-    const filtered = products.filter(product => product.name.toLowerCase().includes(query.toLowerCase()))
+    function onFilter(values) {
+        setFilter(values);
+    }
+
+    console.log(filter);
+
+    const filtered = products.filter(item => {
+        console.log("category item : ", item.category);
+        console.log("promo item : ", item.promo)
+        if (filter.category.length === 0 && filter.promo.length === 0) {
+            return item.name.includes(filter.search)
+        } else if (filter.category.length >= 1) {
+            return item.name.toLowerCase().includes(filter.search.toLowerCase()) && filter.category.some(cat => {
+                return item.category.includes(cat)
+            })
+        } else if (filter.promo.length >= 1) {
+            return item.name.toLowerCase().includes(filter.search.toLowerCase()) && filter.promo.some(promo => {
+                return item.promo.includes(promo)
+            })
+        }
+        return (
+            item.name.toLowerCase().includes(filter.search.toLowerCase()) &&
+            filter.category.some(cat => {
+                return item.category.includes(cat)
+            }) &&
+                filter.promo.some(promo => {
+                    return item.promo.includes(promo)
+                })
+        )
+    })
 
     return (
         <div>
@@ -41,7 +71,7 @@ function Product() {
                 <ReusableTitle>Today <span>Promo</span></ReusableTitle>
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="shrink-0 hidden md:block">
-                        <FilterSidebar onSearch={setQuery} />
+                        <FilterSidebar onFilter={onFilter}/>
                     </div>
                     <div className="flex-1">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -50,7 +80,7 @@ function Product() {
                                     key={product.id}
                                     id={product.id}
                                     imgUrl={product.imgUrl}
-                                    title={product.name}
+                                    name={product.name}
                                     desc={product.description}
                                     rating={product.rating}
                                     oldPrice={product.oldPrice}

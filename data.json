@@ -8,7 +8,8 @@
             "price": 26000,
             "imgUrl": "/assets/images/hazelnut-latte.png",
             "isFlashSale": true,
-            "rating": 4
+            "rating": 4,
+            "category": ["Coffee", "Favourite Product"]
         },
         {
             "id": 2,
@@ -19,7 +20,8 @@
             "price": 29000,
             "imgUrl": "/assets/images/cappucino.png",
             "isFlashSale": false,
-            "rating": 5
+            "rating": 5,
+            "category": ["Coffee", "Favourite Product"]
         },
         {
             "id": 3,
@@ -30,7 +32,8 @@
             "price": 25000,
             "imgUrl": "/assets/images/gorengan.png",
             "isFlashSale": true,
-            "rating": 5
+            "rating": 5,
+            "category": ["Non-Coffee", "Foods"]
         },
         {
             "id": 4,
@@ -41,7 +44,8 @@
             "price": 24000,
             "imgUrl": "/assets/images/caramel-macchiato.png",
             "isFlashSale": true,
-            "rating": 3
+            "rating": 3,
+            "category": ["Coffee"]
         },
         {
             "id": 5,
@@ -52,6 +56,7 @@
             "price": 17000,
             "imgUrl": "/assets/images/cappucino.png",
             "isFlashSale": true,
-            "rating": 5.0
+            "rating": 5.0,
+            "category": ["Coffee", "Add-On"]
         }
     ]
