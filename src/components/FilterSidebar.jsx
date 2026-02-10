@@ -35,7 +35,7 @@ const FilterSidebar = ({onFilter}) => {
               className="bg-black text-white p-6 rounded-xl h-fit w-full lg:w-72 shadow-xl">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="font-bold text-lg">Filter</h3>
-                <button type="button" onClick={handleReset} className="text-xs text-gray-400 hover:text-white">Reset Filter</button>
+                <button type="button" onClick={handleReset} className="text-xs text-gray-400 hover:text-white cursor-pointer">Reset Filter</button>
             </div>
 
             {/* Search */}

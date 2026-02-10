@@ -38,21 +38,21 @@ function Product() {
         if (filter.category.length === 0 && filter.promo.length === 0) {
             return item.name.toLowerCase().includes(filter.search.toLocaleLowerCase().trim())
         } else if (filter.category.length >= 1 && filter.promo.length === 0) { //hanya ada filter category
-            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) && filter.category.some(cat => {
+            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) || filter.category.some(cat => {
                 return item.category.includes(cat)
             })
         } else if (filter.promo.length >= 1 && filter.category.length === 0) { //hanya ada filter promo
-            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) && filter.promo.some(promo => {
+            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) || filter.promo.some(promo => {
                 return item.promo.includes(promo)
             })
         }
 
         // kalau ada semuanya (promo, category, search name)
         return (
-            item.name.toLowerCase().includes(filter.search.toLowerCase().trim) &&
+            item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) ||
             filter.category.some(cat => {
                 return item.category.includes(cat)
-            }) &&
+            }) ||
                 filter.promo.some(promo => {
                     return item.promo.includes(promo)
                 })
