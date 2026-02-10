@@ -28,7 +28,7 @@ function Product() {
         setFilter(values);
     }
 
-    console.log(filter);
+    // console.log(filter);
 
     const filtered = products.filter(item => {
         // console.log("category item : ", item.category);

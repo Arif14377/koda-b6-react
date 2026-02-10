@@ -1,52 +1,59 @@
-import Home from "./pages/Home"
-import Login from "./pages/Login"
-import Register from "./pages/Register"
-import Product from "./pages/Product"
-import ProductDetail from "./pages/ProductDetail"
-import CheckoutProduct from "./pages/CheckoutProduct"
-import History from "./pages/History"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { ForgotPassword } from "./pages/ForgotPassword"
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Product from "./pages/Product";
+import ProductDetail from "./pages/ProductDetail";
+import CheckoutProduct from "./pages/CheckoutProduct";
+import History from "./pages/History";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import store, { persistor } from "./redux/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>
+    element: <Home />,
   },
   {
     path: "/login",
-    element: <Login/>
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <Register />
+    element: <Register />,
   },
   {
     path: "/forgot-password",
-    element: <ForgotPassword/>
-  },  
+    element: <ForgotPassword />,
+  },
   {
     path: "/product",
-    element: <Product/>
+    element: <Product />,
   },
   {
     path: "/product-detail/:id",
-    element: <ProductDetail />
+    element: <ProductDetail />,
   },
   {
     path: "/checkout-product",
-    element: <CheckoutProduct />
+    element: <CheckoutProduct />,
   },
   {
     path: "/history",
-    element: <History />
-  }
-])
+    element: <History />,
+  },
+]);
 
 function App() {
   return (
-    <RouterProvider router={router}/>
-  )
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  );
 }
 
-export default App
+export default App;
