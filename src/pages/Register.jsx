@@ -5,7 +5,7 @@ import { BsPerson } from "react-icons/bs";
 import Button from "../components/Button";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdKey } from "react-icons/md";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -19,6 +19,7 @@ function Register() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const users = useSelector(state => state.user.user)
+  const navigate = useNavigate();
 
   const { handleSubmit, register, formState } = useForm({
     defaultValues: {
@@ -43,7 +44,7 @@ function Register() {
         setError("Password tidak match");
         return;
       }
-      const { password, verifPassword, ...toLocalStorage } = values;
+      const { verifPassword, ...toLocalStorage } = values;
       toLocalStorage.id = 1;
       newUsers = [toLocalStorage];
     } else {
@@ -62,13 +63,15 @@ function Register() {
         setError("Password tidak match");
         return;
       }
-      const { password, verifPassword, ...toLocalStorage } = values;
+      const { verifPassword, ...toLocalStorage } = values;
       toLocalStorage.id = muchUser + 1;
       newUsers = [toLocalStorage, ...users];
     }
 
     dispatch(addUser(newUsers));
     setError("");
+    alert("Registrasi berhasil.")
+    navigate("/login")
   }
 
   return (

@@ -11,13 +11,18 @@ import { useNavigate } from "react-router-dom";
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import SsoSign from "../components/SosialSignButton.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/reducers/sessionReducer.js";
 
 function Login() {
+  const users = useSelector(state => state.user.user)
+  const currentUser = useSelector(state => state.session.user)
+  const isLogin = useSelector(state => state.session.isLogin)
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
   const { handleSubmit, register } = useForm({
     defaultValues: {
       email: "",
@@ -26,12 +31,12 @@ function Login() {
   });
 
   function submitLogin(values) {
-    const pullUser = JSON.parse(localStorage.getItem("users")) || [];
-    const existUser = pullUser.find(
+    // const pullUser = JSON.parse(localStorage.getItem("users")) || [];
+    const existUser = users.find(
       (user) =>
         user.email.trim().toLowerCase() === values.email.trim().toLowerCase(),
     );
-    console.log(existUser);
+    // console.log(existUser);
     if (!existUser) {
       setError("Email tidak terdaftar");
       return;
