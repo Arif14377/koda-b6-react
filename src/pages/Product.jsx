@@ -31,21 +31,25 @@ function Product() {
     console.log(filter);
 
     const filtered = products.filter(item => {
-        console.log("category item : ", item.category);
-        console.log("promo item : ", item.promo)
+        // console.log("category item : ", item.category);
+        // console.log("promo item : ", item.promo)
+
+        // filter category dan promo kosong, return berdasarkan pencarian saja (default string kosong)
         if (filter.category.length === 0 && filter.promo.length === 0) {
-            return item.name.includes(filter.search)
-        } else if (filter.category.length >= 1) {
-            return item.name.toLowerCase().includes(filter.search.toLowerCase()) && filter.category.some(cat => {
+            return item.name.toLowerCase().includes(filter.search.toLocaleLowerCase().trim())
+        } else if (filter.category.length >= 1 && filter.promo.length === 0) { //hanya ada filter category
+            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) && filter.category.some(cat => {
                 return item.category.includes(cat)
             })
-        } else if (filter.promo.length >= 1) {
-            return item.name.toLowerCase().includes(filter.search.toLowerCase()) && filter.promo.some(promo => {
+        } else if (filter.promo.length >= 1 && filter.category.length === 0) { //hanya ada filter promo
+            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) && filter.promo.some(promo => {
                 return item.promo.includes(promo)
             })
         }
+
+        // kalau ada semuanya (promo, category, search name)
         return (
-            item.name.toLowerCase().includes(filter.search.toLowerCase()) &&
+            item.name.toLowerCase().includes(filter.search.toLowerCase().trim) &&
             filter.category.some(cat => {
                 return item.category.includes(cat)
             }) &&
