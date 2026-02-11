@@ -5,6 +5,7 @@ import Product from "./pages/Product";
 import ProductDetail from "./pages/ProductDetail";
 import CheckoutProduct from "./pages/CheckoutProduct";
 import History from "./pages/History";
+import Profile from "./pages/Profile";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import store, { persistor } from "./redux/store";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/history",
     element: <History />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 
