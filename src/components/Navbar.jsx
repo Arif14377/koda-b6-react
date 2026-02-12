@@ -1,7 +1,7 @@
 import { FiSearch, FiShoppingCart } from "react-icons/fi";
 import brandWhite from "../../public/assets/images/brand-white.png";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -12,6 +12,7 @@ function Navbar({ variants }) {
   const isLogin = useSelector((state) => state.session.isLogin);
   const user = useSelector((state) => state.session.user);
   const [showLogout, setShowLogout] = useState(false);
+  const navigate = useNavigate()
   // console.log(isLogin)
 
   const dispatch = useDispatch();
@@ -75,6 +76,8 @@ function Navbar({ variants }) {
                 className="absolute top-12 right-4 mt-2 bg-black text-white px-3 py-1 rounded"
                 onClick={() => {
                   dispatch(logout());
+                  alert("Berhasil logout.")
+                  navigate("/")
                 }}
               >
                 Logout

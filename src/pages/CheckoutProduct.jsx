@@ -10,26 +10,47 @@ import GoPay from "../../public/assets/images/gopay.svg"
 import OVO from "../../public/assets/images/ovo.svg"
 import Paypal from "../../public/assets/images/paypal.svg"
 import Footer from "../components/Footer"
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart, resetCart } from "../redux/reducers/cartReducer"
 
 const PPN = 0.1
 
 function CheckoutProduct() {
-    const [cart, setCart] = useState([])
+    // DONE: ubah cart dari getItem dengan local storage menjadi ambil dari cart redux.
+    // DONE: hanya tampilkan cart berdasarkan session user saat ini.
+    // const [cart, setCart] = useState([])
     const navigate = useNavigate()
-
+    const user = useSelector(state => state.session.user)
+    const isLogin = useSelector(state => state.session.isLogin)
+    const dispatch = useDispatch()
+    // cart seluruhnya
     useEffect(()=>{
-        const pullCart = JSON.parse(localStorage.getItem("cart")) || []
-        setCart(pullCart)
+        if(!isLogin) {
+            alert("Silahkan login terlebih dahulu.")
+            navigate("/login", {replace: true})
+        }
     }, [])
+    const carts = useSelector(state => state.cart.carts)
+    // cart user saat ini
+
+    const cart = carts.filter(item => item.UID === user.id)
+    // console.log(cart)
+
+    // useEffect(()=>{
+    //     const pullCart = JSON.parse(localStorage.getItem("cart")) || []
+    //     setCart(pullCart)
+    // }, [])
 
     const subTotal = cart.reduce((total, item) => total + (item.price * (item.qty || 1)), 0);
     const tax = subTotal * PPN;
     const grandTotal = subTotal + tax; 
 
     function removeItem(target) {
-        const newCart = cart.filter(item => !(Number(item.id) === Number(target.id) && item.size === target.size && item.variant === target.variant));
-        setCart(newCart);
-        localStorage.setItem("cart", JSON.stringify(newCart));
+        dispatch(removeCart(target))
+        // const newCart = cart.filter(item => !(Number(item.id) === Number(target.id) && item.size === target.size && item.variant === target.variant));
+        // DONE: ubah handle remove ke redux.
+        // setCart(newCart);
+        // localStorage.setItem("cart", JSON.stringify(newCart));
     }
 
     function checkout() {
@@ -39,6 +60,7 @@ function CheckoutProduct() {
         }
 
         const order = {
+            UID: user.id,
             id: Date.now(),
             items: cart,
             subtotal: subTotal,
@@ -52,8 +74,9 @@ function CheckoutProduct() {
         localStorage.setItem("history", JSON.stringify(newHistory))
 
         // clear cart
-        localStorage.removeItem("cart")
-        setCart([])
+        // localStorage.removeItem("cart")
+        // setCart([])
+        dispatch(resetCart())
 
         alert("Checkout berhasil, order disimpan ke history")
         navigate('/history')
