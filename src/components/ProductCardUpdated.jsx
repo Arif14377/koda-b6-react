@@ -1,11 +1,17 @@
 import React from 'react';
 import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {addCart, updateCart} from '../redux/reducers/cartReducer'
 
 const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isFlashSale, rating}) => {
+// TODO: fitur add to cart dengan redux
+  const dispatch = useDispatch()
+  const cart = useSelector(state => state.cart.carts);
+
   const maxStar = 5;
-  const pullCart = JSON.parse(localStorage.getItem("cart")) || []
+  // const pullCart = JSON.parse(localStorage.getItem("cart")) || []
 
   //
   function addToCart() {
@@ -19,32 +25,52 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
       img: imgUrl,
       isFlashSale: isFlashSale
     }
+    // console.log("productToCart: ", productToCart) ## berhasil masuk datanya
+    
+    // jika tidak ada, lanjut no.5
+    // [v] 2. cek apakah productToCart sudah ada di keranjang?
+    // [] 3. Jika ada, maka tambahkan qty saja bersama isian keranjang lainnya
+    // [v] 4. jika tidak ada, maka tambahkan productToCart bersama isian keranjang lainnya
+    // [v] 5. jika keranjang kosong, push productToCart.
+    
+    // cart kosong -> push addToCart
+    if (!cart) {
+      dispatch(addCart(productToCart))
+      alert("Produk berhasil ditambahkan ke keranjang")
+      return
+    }
 
-    const isExist = pullCart.find(item =>
+    // cart ada isinya -> cek apakah ada produk yang sama (by id, size, variant)
+    const isExist = cart.find(item =>
       Number(item.id) === Number(productToCart.id) &&
       item.size === productToCart.size &&
       item.variant === productToCart.variant
     )
 
-    let newCart = []
-    if (isExist) {
-      newCart = pullCart.map(item => {
-        if (
-          Number(item.id) === Number(productToCart.id) &&
-          item.size === productToCart.size &&
-          item.variant === productToCart.variant
-        ) {
-          return { ...item, qty: (item.qty || 0) + productToCart.qty }
-        }
-        return item
-      })
-    } else {
-      newCart = [productToCart, ...pullCart]
+    // tidak ada yang sama -> push langsung ke cart
+    if(!isExist) {
+      dispatch(addCart(productToCart))
+      alert("Produk berhasil ditambahkan ke keranjang")
+      return
     }
 
-    localStorage.setItem("cart", JSON.stringify(newCart))
+    // kalau ada yang sama, tambahkan qtynya saja
+    // map cart, tambahkan qty jika ada isExist, updateCart() - reducer
+    const newCart = cart.map(item => {
+      if (
+        Number(item.id) === Number(productToCart.id) &&
+        item.size === productToCart.size &&
+        item.variant === productToCart.variant
+      ) {
+        return {...item, qty: item.qty + productToCart.qty}
+      }
+      return item
+    })
+    // console.log(newCart)
+    dispatch(updateCart(newCart))
     alert("Produk berhasil ditambahkan ke keranjang")
   }
+
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col relative">
