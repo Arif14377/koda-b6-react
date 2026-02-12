@@ -56,6 +56,7 @@ function ProductDetail() {
     const pullCart = JSON.parse(localStorage.getItem("cart"))
 
     const productToCart = {
+        UID: user.id,
         id: dataToShow.id,
         name: dataToShow.name,
         oldPrice: dataToShow.oldPrice,

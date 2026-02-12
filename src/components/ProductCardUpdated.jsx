@@ -2,20 +2,31 @@ import React from 'react';
 import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {addCart, updateCart} from '../redux/reducers/cartReducer'
 
 const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isFlashSale, rating}) => {
 // TODO: fitur add to cart dengan redux
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart.carts);
+  const isLogin = useSelector(state => state.session.isLogin);
+  const user = useSelector(state => state.session.user);
+  const navigate = useNavigate()
+  // console.log(user)
 
   const maxStar = 5;
   // const pullCart = JSON.parse(localStorage.getItem("cart")) || []
 
   //
   function addToCart() {
+    if(!isLogin) {
+      alert("Anda belum login. Login terlebih dahulu.")
+      navigate("/login")
+      return
+    }
+
     const productToCart = {
+      UID: user.id,
       id: id,
       name: name,
       price,
