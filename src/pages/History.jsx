@@ -1,15 +1,25 @@
 import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import Footer from "../components/Footer"
+import { useSelector } from "react-redux"
 
 function History() {
     const [history, setHistory] = useState([])
-
+    const user = useSelector(state => state.session.user)
+    
     useEffect(()=>{
         const pull = JSON.parse(localStorage.getItem("history")) || []
-        setHistory(pull)
-    }, [])
-
+        if (pull.length === 0) {
+            setHistory(pull)
+        } else {
+            const hist = pull.filter(item => {
+                return item.UID === user.id
+            })
+            setHistory(hist)
+        }
+    }, [user.id])
+    
+    
     return (
         <div>
             <Navbar variants={"black"} />
