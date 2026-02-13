@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Viez Robert",
+        "jobTitle": "Manager Coffee Shop",
+        "testimoni": "Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!",
+        "stars": 5
+    },
+    {
+        "name": "Rina Maharani",
+        "jobTitle": "Freelance Illustrator",
+        "testimoni": "Pesan lewat aplikasinya gampang banget. Harganya masih masuk akal, kopinya juga enak dan datangnya cepat.",
+        "stars": 5
+    },
+    {
+        "name": "Dimas Pratama",
+        "jobTitle": "Office Staff",
+        "testimoni": "Sering pesan sebelum berangkat kerja. Aplikasinya ringan, proses checkout cepat, dan rasanya konsisten.",
+        "stars": 4
+    },
+    {
+        "name": "Nadia Putri",
+        "jobTitle": "University Student",
+        "testimoni": "Banyak promo di aplikasi, jadi lumayan hemat. Pelayanannya ramah dan minumannya selalu fresh.",
+        "stars": 5
+    },
+    {
+        "name": "Andre Saputra",
+        "jobTitle": "Entrepreneur",
+        "testimoni": "User interface aplikasinya simpel dan mudah dipakai. Harga sesuai kualitas, dan pesanannya selalu tepat.",
+        "stars": 4
+    },
+    {
+        "name": "Lia Oktaviani",
+        "jobTitle": "Content Creator",
+        "testimoni": "Suka karena bisa order tanpa antre. Notifikasi jelas, pelayanan cepat, dan rasa kopinya premium.",
+        "stars": 5
+    }
+]
