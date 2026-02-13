@@ -16,16 +16,44 @@ import ProductCardUpdated from "../components/ProductCardUpdated"
 import {useEffect, useState} from "react";
 
 const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+const URL_TESTIMONI = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/testimonial.json"
 
 function Home() {
     const [data, setData] = useState([])
+    const [testimoni, setTestimoni] = useState([])
+    const [idx, setIdx] = useState(0)
     useEffect(() => {
         async function fetchData() {
             const result = await getData(URL)
             setData(result)
         }
+        async function fecthTestimoni() {
+            const result = await getData(URL_TESTIMONI)
+            setTestimoni(result)
+        }
         fetchData()
+        fecthTestimoni()
     }, []);
+    // console.log(testimoni)
+
+    function geserKiri() {
+        if(idx > 0) {
+            setIdx((prev)=>prev-1)
+            return
+        }
+        setIdx(testimoni.length - 1)
+        // console.log(idx)
+    }
+
+    function geserKanan() {
+        if(idx < testimoni.length - 1){
+            setIdx((prev)=>prev+1)
+            return
+        }
+        setIdx(0)
+        // console.log(idx)
+    }
+
     return (
         <div>
             <Navbar variants={"transparant"}/>
@@ -121,31 +149,43 @@ function Home() {
                     <p>You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
                     <img src={stores} alt="store location" />
                 </div>
+                {/* Testimonni Fetch */}
+
                 {/* Testimonial */}
                 <div className="flex flex-col md:flex-row gap-4 px-16 py-12" style={{ backgroundImage: `url(${bgTesti})` }}>
                     <img src={viez} alt="Viez Robert - Customer" />
-                    <div className="flex flex-col gap-5 text-white">
+                    <div className="flex flex-col gap-5 text-white justify-between">
                         <p>Testimonial</p>
-                        <h2 className="text-white font-medium text-4xl">Viez Robert</h2>
-                        <p className="text-[#FF8906]">Manager coffee shop</p>
-                        <p>“Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!</p>
-                        <div className="flex gap-2 items-center">
-                            <IoStar className="text-[#FF8906]"/>
-                            <IoStar className="text-[#FF8906]"/>
-                            <IoStar className="text-[#FF8906]"/>
-                            <IoStar className="text-[#FF8906]"/>
-                            <IoStar className="text-[#FF8906]"/>
-                            <span>5.0</span>
-                        </div>
-                        <div className="flex gap-2">
-                            <IoArrowBackCircleSharp size={45}/>
-                            <IoArrowForwardCircle size={45} color="#FF8906"/>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <span className="w-8 h-2.5 bg-[#FF8906] rounded-full cursor-pointer"></span>
-                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
-                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
-                            <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                        {
+                            testimoni &&
+                            <div className="flex flex-col gap-5 text-white">
+                                <h2 className="text-white font-medium text-4xl">{testimoni[idx]?.name}</h2>
+                                <p className="text-[#FF8906]">{testimoni[idx]?.jobTitle}</p>
+                                <p>"{testimoni[idx]?.testimoni}"</p>
+                                <div className="flex gap-2 items-center">
+                                    {
+                                        
+                                    }
+                                    <IoStar className="text-[#FF8906]"/>
+                                    <IoStar className="text-[#FF8906]"/>
+                                    <IoStar className="text-[#FF8906]"/>
+                                    <IoStar className="text-[#FF8906]"/>
+                                    <IoStar className="text-[#FF8906]"/>
+                                    <span>{testimoni[idx]?.stars}.0</span>
+                                </div>
+                            </div>
+                        }
+                        <div className="flex flex-col gap-5">
+                            <div className="flex gap-2">
+                                <IoArrowBackCircleSharp size={45} onClick={()=>geserKiri()}/>
+                                <IoArrowForwardCircle size={45} color="#FF8906" onClick={()=>geserKanan()}/>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="w-8 h-2.5 bg-[#FF8906] rounded-full cursor-pointer"></span>
+                                <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                                <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                                <span className="w-2.5 h-2.5 bg-gray-500 rounded-full hover:bg-gray-400 cursor-pointer"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
