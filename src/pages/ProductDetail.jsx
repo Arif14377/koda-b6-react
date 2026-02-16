@@ -7,6 +7,8 @@ import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { BsCart3 } from 'react-icons/bs';
+import { useDispatch, useSelector } from "react-redux";
+import {addCart, updateCart} from '../redux/reducers/cartReducer'
 
 const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
 
@@ -16,7 +18,12 @@ function ProductDetail() {
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
     const [_, setCart] = useState([])
+    const user = useSelector(state => state.session.user)
+    const isLogin = useSelector(state => state.session.isLogin)
+    const cart = useSelector(state => state.cart.carts)
+    const dispatch = useDispatch()
 
+    // ambil data product
     useEffect(() => {
         async function fetchData() {
             const result = await getData(URL)
@@ -53,33 +60,39 @@ function ProductDetail() {
     }
 
     // fungsi tambah produk ke keranjang
-    const pullCart = JSON.parse(localStorage.getItem("cart"))
-
+    // const pullCart = JSON.parse(localStorage.getItem("cart"))
+    // TODO : Mengubah handle menjadi redux.
     const productToCart = {
         UID: user.id,
-        id: dataToShow.id,
-        name: dataToShow.name,
-        oldPrice: dataToShow.oldPrice,
-        price: dataToShow.price,
-        img: dataToShow.imgUrl,
-        isFlashSale: dataToShow.isFlashSale,
-        qty: qty,
-        size: size,
-        variant: variant
+        id: id,
+        name: name,
+        price,
+        qty: 1,
+        size: "Regular",
+        variant: "Ice",
+        img: imgUrl,
+        isFlashSale: isFlashSale
     }
     let newCart = []
 
     function addToCart() {
+        // jika belum login
+        if(!isLogin) {
+        alert("Anda belum login. Login terlebih dahulu.")
+        navigate("/login")
+        return
+        }
 
+        // jika cart kosong
         if(!pullCart) {
             newCart.push(productToCart)
-            setCart(newCart)
-            localStorage.setItem("cart", JSON.stringify(newCart))
+            dispatch(cart)
             return
         }
         
         // Cek apakah ada produk ada di cart?
         const isExist = pullCart.find(item => 
+            Number(item.UID) === Number(productToCart.id) &&
             Number(item.id) === productToCart.id &&
             item.size === productToCart.size &&
             item.variant === productToCart.variant
@@ -88,6 +101,7 @@ function ProductDetail() {
         if(isExist) {
             newCart = pullCart.map(item => {
                 if(
+                    Number(item.UID) === Number(productToCart.id) &&
                     Number(item.id) === productToCart.id &&
                     item.size === productToCart.size &&
                     item.variant === productToCart.variant

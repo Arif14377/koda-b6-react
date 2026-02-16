@@ -9,10 +9,12 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
 // TODO: fitur add to cart dengan redux
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart.carts);
+  console.log(cart)
   const isLogin = useSelector(state => state.session.isLogin);
   const user = useSelector(state => state.session.user);
   const navigate = useNavigate()
-  // console.log(user)
+  console.log(isLogin)
+  console.log(user)
 
   const maxStar = 5;
   // const pullCart = JSON.parse(localStorage.getItem("cart")) || []
@@ -53,6 +55,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
 
     // cart ada isinya -> cek apakah ada produk yang sama (by id, size, variant)
     const isExist = cart.find(item =>
+      Number(item.UID) === Number(productToCart.id) &&
       Number(item.id) === Number(productToCart.id) &&
       item.size === productToCart.size &&
       item.variant === productToCart.variant
@@ -69,6 +72,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
     // map cart, tambahkan qty jika ada isExist, updateCart() - reducer
     const newCart = cart.map(item => {
       if (
+        Number(item.UID) === Number(productToCart.id) &&
         Number(item.id) === Number(productToCart.id) &&
         item.size === productToCart.size &&
         item.variant === productToCart.variant
