@@ -65,15 +65,15 @@ function ProductDetail() {
     const productToCart = {
         UID: user.id,
         id: id,
-        name: name,
-        price,
-        qty: 1,
-        size: "Regular",
-        variant: "Ice",
-        img: imgUrl,
-        isFlashSale: isFlashSale
+        name: dataToShow.name,
+        price: dataToShow.price,
+        qty: qty,
+        size: size,
+        variant: variant,
+        img: dataToShow.imgUrl,
+        isFlashSale: dataToShow.isFlashSale
     }
-    let newCart = []
+    // let newCart = []
 
     function addToCart() {
         // jika belum login
@@ -83,40 +83,43 @@ function ProductDetail() {
         return
         }
 
-        // jika cart kosong
-        if(!pullCart) {
-            newCart.push(productToCart)
-            dispatch(cart)
+        // jika cart kosong -> dispatch objek item untuk dipush ke state redux.
+        if(cart.length < 1) {
+            dispatch(addCart(productToCart))
+            alert("Produk berhasil ditambahakan ke keranjang.")
             return
         }
         
         // Cek apakah ada produk ada di cart?
-        const isExist = pullCart.find(item => 
+        const isExist = cart.find(item => 
             Number(item.UID) === Number(productToCart.id) &&
             Number(item.id) === productToCart.id &&
             item.size === productToCart.size &&
             item.variant === productToCart.variant
         )
 
+        // Produk ada di cart, maka buat array of object cart baru
         if(isExist) {
-            newCart = pullCart.map(item => {
-                if(
+            const newCart = cart.map(item => {
+                if (
                     Number(item.UID) === Number(productToCart.id) &&
-                    Number(item.id) === productToCart.id &&
+                    Number(item.id) === Number(productToCart.id) &&
                     item.size === productToCart.size &&
                     item.variant === productToCart.variant
                 ) {
                     return {...item, qty: item.qty + productToCart.qty}
                 }
                 return item
-            })
-        } else { 
-            newCart = [productToCart, ...pullCart]
+                })
+            // console.log(newCart)
+            dispatch(updateCart(newCart))
+            alert("Produk berhasil ditambahkan ke keranjang")
+            return
+        } else {  //Product tidak ada di cart, dispatch(addCart(...))
+            dispatch(addCart(productToCart))
+            alert("Produk berhasil ditambahakan ke keranjang.")
+            return
         }
-
-        setCart(newCart);
-        localStorage.setItem("cart", JSON.stringify(newCart));
-        setQty(1);
     }
 
     return (
