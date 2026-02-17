@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react"
 import { getData } from "../lib/fetch"
 import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
 import { useParams } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { FiThumbsUp } from "react-icons/fi";
@@ -17,7 +18,7 @@ function ProductDetail() {
     const [qty, setQty] = useState(1)
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
-    const [_, setCart] = useState([])
+    const [bigImage, setBigImage] = useState("")
     const user = useSelector(state => state.session.user)
     const isLogin = useSelector(state => state.session.isLogin)
     const cart = useSelector(state => state.cart.carts)
@@ -128,11 +129,20 @@ function ProductDetail() {
             {/* Product Detail */}
             <div className="grid grid-cols-1 md:grid-cols-2 mt-17.5 py-20 px-32 gap-4">
                 {/* Left */}
-                <div className="grid grid-cols-3 grid-rows-4 gap-4">
-                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
+                <div className="grid grid-cols-3 grid-rows-4 gap-4 h-fit">
+                    {
+                        dataToShow.imgUrl.map((item, idx) => {
+                            if (idx === 0) {
+                                setBigImage(item.imgUrl);
+                                return <img src={item.imgUrl} alt={item.name} className="col-span-3 row-span-3 object-cover w-full" />
+                            }
+                            return <img src={item.imgUrl} alt={item.name} className="object-cover w-full" onClick={()=>setBigImage(item.imgUrl)} />
+                        })
+                    }
+                    {/* <img src={dataToShow.imgUrl} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
                     <img src={dataToShow.imgUrl} alt={dataToShow.name} className="object-cover w-full" />
                     <img src={dataToShow.imgUrl} alt={dataToShow.name} className="row-span-3 object-cover w-full" />
-                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="row-span-3 object-cover w-full" />
+                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="row-span-3 object-cover w-full" /> */}
                 </div>
                 {/* Right */}
                 <div className="flex flex-col gap-3">
@@ -197,6 +207,7 @@ function ProductDetail() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }
