@@ -76,7 +76,7 @@ function CheckoutProduct() {
         // clear cart
         // localStorage.removeItem("cart")
         // setCart([])
-        dispatch(resetCart())
+        dispatch(resetCart(user.id))
 
         alert("Checkout berhasil, order disimpan ke history")
         navigate('/history')

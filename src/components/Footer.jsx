@@ -1,6 +1,7 @@
 import brandLogo from "../../public/assets/images/brand-brown.png"
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { TiSocialInstagram } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 function Footer() {
     return (
@@ -12,7 +13,7 @@ function Footer() {
             </div>
             <div className="flex flex-col gap-4 w-fit"> 
                 <h2 className="font-medium [&~a]:text-[#6d6d6d] text-lg">Product</h2>
-                <a href="#">Our Product</a>
+                <Link to={"/product"} className="cursor-pointer">Our Product</Link>
                 <a href="#">Pricing</a>
                 <a href="#">Locations</a>
                 <a href="#">Countries</a>

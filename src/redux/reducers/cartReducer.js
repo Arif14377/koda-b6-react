@@ -18,8 +18,8 @@ const cartReducer = createSlice({
     updateCart: (state, action) => {
       state.carts = action.payload
     },
-    resetCart: (state) => {
-      state.carts = []
+    resetCart: (state, action) => {
+      state.carts = (state.carts || []).filter(item => !(item.UID === action.payload))
     }
   },
 });
