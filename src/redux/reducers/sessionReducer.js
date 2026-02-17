@@ -7,6 +7,7 @@ const initialState = {
     email: "",
     phone: "",
     address: "",
+    role: "",
   },
   isLogin: false,
 };
@@ -26,6 +27,7 @@ const sessionReducer = createSlice({
       state.user.email = "";
       state.user.phone = "";
       state.user.address = "";
+      state.user.role = "";
       state.isLogin = false;
     },
   },

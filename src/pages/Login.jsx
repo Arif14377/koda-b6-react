@@ -48,7 +48,8 @@ function Login() {
 
     alert("Login berhasil.");
     setError("");
-    dispatch(login(existUser));
+    const {password, ...dataSession} = existUser
+    dispatch(login(dataSession));
     navigate("/");
   }
 
