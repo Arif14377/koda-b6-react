@@ -100,7 +100,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
       {/* Gambar */}
       <div className="h-48 overflow-hidden relative">
         <img 
-          src={imgUrl}
+          src={imgUrl[0]}
           alt={name}
           className="w-full h-full object-cover"
         />
@@ -132,11 +132,11 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
           <Link to={`/product-detail/${id}`} className="flex-1">
-            <button className="w-full bg-orange-500 text-black font-bold py-2 rounded-lg">
+            <button className="w-full bg-orange-500 text-black font-bold py-2 rounded-lg cursor-pointer">
               Buy
             </button>
           </Link>
-          <button onClick={addToCart} className="border border-orange-500 text-orange-500 px-3 rounded-lg">
+          <button onClick={addToCart} className="border border-orange-500 text-orange-500 px-3 rounded-lg cursor-pointer">
             <BsCart3 size={20} />
           </button>
         </div>

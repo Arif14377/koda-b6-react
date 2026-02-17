@@ -130,13 +130,12 @@ function ProductDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 mt-17.5 py-20 px-32 gap-4">
                 {/* Left */}
                 <div className="grid grid-cols-3 grid-rows-4 gap-4 h-fit">
+                    <img src={bigImage || dataToShow.imgUrl[0]} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
                     {
                         dataToShow.imgUrl.map((item, idx) => {
-                            if (idx === 0) {
-                                setBigImage(item.imgUrl);
-                                return <img src={item.imgUrl} alt={item.name} className="col-span-3 row-span-3 object-cover w-full" />
+                            if (idx !== 0) {
+                                return <img key={idx} src={item} alt={dataToShow.name} className="object-cover w-full cursor-pointer" onClick={() => setBigImage(item)} />
                             }
-                            return <img src={item.imgUrl} alt={item.name} className="object-cover w-full" onClick={()=>setBigImage(item.imgUrl)} />
                         })
                     }
                     {/* <img src={dataToShow.imgUrl} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
