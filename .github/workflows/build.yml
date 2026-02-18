@@ -57,5 +57,5 @@ jobs:
                 port: ${{ secrets.PORT }}
                 script: |
                     docker pull ghcr.io/arif14377/koda-b6-cicd-frontend:latest
-                    docker rm -f arif-cicd
+                    docker rm -f web-arif || true
                     docker run -d -p 20101:80 --network pman_web --name web-arif ghcr.io/arif14377/koda-b6-cicd-frontend:latest
