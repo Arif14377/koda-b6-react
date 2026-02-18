@@ -5,6 +5,7 @@ import Product from "./pages/Product";
 import ProductDetail from "./pages/ProductDetail";
 import CheckoutProduct from "./pages/CheckoutProduct";
 import History from "./pages/History";
+import OrderDetail from "./pages/HistoryDetail";
 import Profile from "./pages/Profile";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ForgotPassword } from "./pages/ForgotPassword";
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
     path: "/profile",
     element: <Profile />,
   },
+  {
+    path: "/order-detail",
+    element: <OrderDetail/>
+  }
 ]);
 
 function App() {
