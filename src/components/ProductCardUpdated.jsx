@@ -8,12 +8,12 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
 // TODO: fitur add to cart dengan redux
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart.carts);
-  console.log(cart)
+  // console.log(cart)
   const isLogin = useSelector(state => state.session.isLogin);
   const user = useSelector(state => state.session.user);
   const navigate = useNavigate()
-  console.log(isLogin)
-  console.log(user)
+  // console.log(isLogin)
+  // console.log(user)
 
   const maxStar = 5;
   // const pullCart = JSON.parse(localStorage.getItem("cart")) || []
