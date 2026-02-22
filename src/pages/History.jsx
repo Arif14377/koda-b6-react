@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar"
 import { useEffect, useState } from "react"
 import Footer from "../components/Footer"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 function History() {
     const [history, setHistory] = useState([])
@@ -41,8 +42,11 @@ function History() {
                                             <p className="text-sm font-semibold">IDR {Number(order.total).toLocaleString("id-ID")}</p>
                                         </div>
                                     </div>
-                                    <div className="text-sm">
+                                    <div className="text-sm flex flex-col gap-2">
                                         <span className="px-3 py-1 bg-[#FF8906] text-white rounded">Completed</span>
+                                        <Link to={`/order-detail/${order.id}`} className="ml-3 text-[#FF8906] underline">
+                                            Lihat Detail
+                                        </Link>
                                     </div>
                                 </div>
                             ))
