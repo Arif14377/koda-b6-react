@@ -34,7 +34,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
       qty: 1,
       size: "Regular",
       variant: "Ice",
-      img: imgUrl,
+      img: imgUrl?.[0] || "",
       isFlashSale: isFlashSale
     }
     // console.log("productToCart: ", productToCart) ## berhasil masuk datanya

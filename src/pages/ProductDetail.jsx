@@ -71,7 +71,7 @@ function ProductDetail() {
         qty: qty,
         size: size,
         variant: variant,
-        img: dataToShow.imgUrl,
+        img: dataToShow.imgUrl?.[0] || "",
         isFlashSale: dataToShow.isFlashSale
     }
     // let newCart = []
