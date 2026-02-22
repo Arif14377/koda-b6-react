@@ -72,15 +72,13 @@ function Navbar({ variants }) {
               <FaRegUserCircle size={20} />
             </div>
             {showLogout && (
-              <div
-                className="absolute top-12 right-4 mt-2 bg-black text-white px-3 py-1 rounded"
-                onClick={() => {
+              <div className="absolute top-12 right-4 mt-2 bg-black text-white px-3 py-1 rounded">
+                <Link to={'/profile'}>Profile</Link>
+                <p onClick={() => {
                   dispatch(logout());
                   alert("Berhasil logout.")
                   navigate("/")
-                }}
-              >
-                Logout
+                }}>Logout</p>
               </div>
             )}
           </div>

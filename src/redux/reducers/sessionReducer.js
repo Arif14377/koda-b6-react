@@ -30,8 +30,14 @@ const sessionReducer = createSlice({
       state.user.role = "";
       state.isLogin = false;
     },
+    updateSessionUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      };
+    },
   },
 });
 
-export const { login, logout } = sessionReducer.actions;
+export const { login, logout, updateSessionUser } = sessionReducer.actions;
 export default sessionReducer.reducer;
