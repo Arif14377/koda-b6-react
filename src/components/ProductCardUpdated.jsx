@@ -1,4 +1,3 @@
-import React from 'react';
 import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
