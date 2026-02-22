@@ -8,10 +8,12 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import { GrCycle } from "react-icons/gr";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 function OrderDetail() {
     const [selectedOrder, setSelectedOrder] = useState(null)
     const user = useSelector(state => state.session.user)
+    const { orderId } = useParams()
     
     useEffect(()=>{
         if (!user?.id) {
@@ -21,8 +23,9 @@ function OrderDetail() {
 
         const pull = JSON.parse(localStorage.getItem("history")) || []
         const userOrders = pull.filter(item => item.UID === user.id)
-        setSelectedOrder(userOrders[0] || null)
-    }, [user?.id])
+        const detailOrder = userOrders.find(item => String(item.id) === String(orderId))
+        setSelectedOrder(detailOrder || null)
+    }, [user?.id, orderId])
 
     const items = selectedOrder?.items || []
     
