@@ -11,14 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import SsoSign from "../components/SosialSignButton.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../redux/reducers/sessionReducer.js";
+import http from "../lib/http.js";
 
 function Login() {
-  const users = useSelector(state => state.user.user)
-  const currentUser = useSelector(state => state.session.user)
-  const isLogin = useSelector(state => state.session.isLogin)
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -30,27 +27,23 @@ function Login() {
     },
   });
 
-  function submitLogin(values) {
-    // const pullUser = JSON.parse(localStorage.getItem("users")) || [];
-    const existUser = users.find(
-      (user) =>
-        user.email.trim().toLowerCase() === values.email.trim().toLowerCase(),
-    );
-    // console.log(existUser);
-    if (!existUser) {
-      setError("Email tidak terdaftar");
-      return;
-    }
-    if (existUser.password !== values.password) {
-      setError("Password salah");
-      return;
-    }
-
-    alert("Login berhasil.");
+  async function submitLogin(values) {
     setError("");
-    const {password, ...dataSession} = existUser
-    dispatch(login(dataSession));
-    navigate("/");
+    try {
+      const result = await http(
+        "/auth/login",
+        { email: values.email, password: values.password },
+        { method: "POST" },
+      );
+      const sessionUser = {
+        email: result?.results?.email || values.email,
+      };
+      dispatch(login(sessionUser));
+      alert("Login berhasil.");
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Login gagal");
+    }
   }
 
   return (

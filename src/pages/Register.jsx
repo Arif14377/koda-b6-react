@@ -11,14 +11,11 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import SsoSign from "../components/SosialSignButton.jsx";
 import { FaFacebook } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../redux/reducers/userReducer.js";
+import http from "../lib/http.js";
 
 function Register() {
   // const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const users = useSelector(state => state.user.user)
   const navigate = useNavigate();
 
   const { handleSubmit, register, formState } = useForm({
@@ -34,44 +31,28 @@ function Register() {
     },
   });
 
-  function submitRegister(values) {
-    const muchUser = users.length;
-    let newUsers = [];
-
-    if (users.length === 0) {
-      // Jika belum ada user di local storage
-      if (values.password !== values.verifPassword) {
-        setError("Password tidak match");
-        return;
-      }
-      const { verifPassword, ...toLocalStorage } = values;
-      toLocalStorage.id = 1;
-      newUsers = [toLocalStorage];
-    } else {
-      //Jika sudah ada user di local storage
-      const isExist = users.some(
-        (user) =>
-          user.email.trim().toLowerCase() === values.email.trim().toLowerCase(),
-      );
-
-      if (isExist) {
-        setError("User sudah terdaftar");
-        return;
-      }
-
-      if (values.password !== values.verifPassword) {
-        setError("Password tidak match");
-        return;
-      }
-      const { verifPassword, ...toLocalStorage } = values;
-      toLocalStorage.id = muchUser + 1;
-      newUsers = [toLocalStorage, ...users];
+  async function submitRegister(values) {
+    if (values.password !== values.verifPassword) {
+      setError("Password tidak sama.");
+      return;
     }
 
-    dispatch(addUser(newUsers));
     setError("");
-    alert("Registrasi berhasil.")
-    navigate("/login")
+    try {
+      await http(
+        "/auth/register",
+        {
+          fullName: values.name,
+          email: values.email,
+          password: values.password,
+        },
+        { method: "POST" },
+      );
+      alert("Registrasi berhasil.");
+      navigate("/login");
+    } catch (err) {
+      setError(err.message || "Registrasi gagal");
+    }
   }
 
   return (
