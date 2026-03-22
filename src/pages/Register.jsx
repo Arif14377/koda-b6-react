@@ -40,13 +40,15 @@ function Register() {
     setError("");
     try {
       await http(
-        "/auth/register",
-        {
-          fullName: values.name,
-          email: values.email,
-          password: values.password,
-        },
-        { method: "POST" },
+        {       
+          url: "/auth/register",
+          body: {
+            fullName: values.name,
+            email: values.email,
+            password: values.password,
+          },
+          opts: { method: "POST" },
+        }
       );
       alert("Registrasi berhasil.");
       navigate("/login");

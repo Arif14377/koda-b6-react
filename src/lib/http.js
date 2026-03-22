@@ -1,33 +1,44 @@
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8888";
 
-async function http(url, body, opts = {}) {
+async function http({url, body, opts = {}}) {
   // console.log("url: ", url)
   // console.log("body: ", body)
   // console.log("opts", opts)
+
+  // salin headers dari opts.headers. jika tidak ada, buat objek kosong
   const headers = { ...(opts.headers || {}) };
+
+  // Jika token diberikan, sisipkan ke header.Authorization dalam format Bearer (standar JWT).
   if (opts.token) {
     headers.Authorization = `Bearer ${opts.token}`;
+    console.log("authorization: ", headers.Authorization)
   }
+
+  // jika ada body dan belum ada content-type, maka set ke "application/json"
   if (body && !headers["Content-Type"]) {
     headers["Content-Type"] = "application/json";
   }
 
+  // fetch data dari url + endpoint
   const res = await fetch(`${BASE_URL}${url}`, {
+    // method → pakai opts.method jika ada, jika tidak: POST kalau ada body, GET kalau tidak ada body.
     method: opts.method || (body ? "POST" : "GET"),
     headers,
+    // jika ada body, convert ke json string
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  // console.log("res: ", res)
+  // console.log("res: \n", res)
 
-  // cek tipe response
+  // parsing response
+  // cek content-type, jika application/json, maka parse sebagai objek js, kalau bukan, parse sebagai text
   const contentType = res.headers.get("content-type") || "";
-  // parsing hasil fetch, json atau text
   const data = contentType.includes("application/json")
     ? await res.json()
     : await res.text();
 
-  
+  // console.log("data: ", data)
+  // jika status http bukan 200, handle error:
   if (!res.ok) {
     const message =
       typeof data === "object" && data?.message ? data.message : "Request gagal";

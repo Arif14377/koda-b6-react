@@ -14,27 +14,29 @@ import { getData } from "../lib/fetch"
 import { Link } from "react-router-dom"
 import ProductCardUpdated from "../components/ProductCardUpdated"
 import {useEffect, useState} from "react";
+import http from "../lib/http.js";
 
-const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
-const URL_TESTIMONI = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/testimonial.json"
+// const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+// const URL_TESTIMONI = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/testimonial.json"
 
 function Home() {
     const [data, setData] = useState([])
     const [testimoni, setTestimoni] = useState([])
     const [idx, setIdx] = useState(0)
     useEffect(() => {
-        async function fetchData() {
-            const result = await getData(URL)
-            setData(result)
+        async function products() {
+            const result = await http(
+                {
+                    url: "/products",
+                    opts: {method: "GET"}
+                }
+            )
+            setData(result.results)
         }
-        async function fecthTestimoni() {
-            const result = await getData(URL_TESTIMONI)
-            setTestimoni(result)
-        }
-        fetchData()
-        fecthTestimoni()
+        products()
     }, []);
     // console.log(testimoni)
+    // console.log("data product:", data)
 
     function geserKiri() {
         if(idx > 0) {

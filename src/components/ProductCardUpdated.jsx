@@ -98,8 +98,9 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
 
       {/* Gambar */}
       <div className="h-48 overflow-hidden relative">
-        <img 
-          src={imgUrl[0]}
+        <img
+          // TODO: tambahkan gambar di database
+          // src={imgUrl[0]}
           alt={name}
           className="w-full h-full object-cover"
         />

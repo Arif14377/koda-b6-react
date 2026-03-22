@@ -31,9 +31,11 @@ function Login() {
     setError("");
     try {
       const result = await http(
-        "/auth/login",
-        { email: values.email, password: values.password },
-        { method: "POST" },
+        {
+          url: "/auth/login",
+          body: { email: values.email, password: values.password },
+          opts: { method: "POST" },
+        }
       );
       const sessionUser = {
         email: result?.results?.email || values.email,
