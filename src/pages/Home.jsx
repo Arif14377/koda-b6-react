@@ -34,11 +34,30 @@ function Home() {
             setData(result.results)
         }
         products()
+        async function reviews() {
+            try {
+                const result = await http(
+                    {
+                        url: "/reviews",
+                        opts: {method: "GET"}
+                    }
+                )
+                setTestimoni(result.results || [])
+                setIdx(0)
+            } catch (err) {
+                console.error("Failed to load reviews:", err)
+                setTestimoni([])
+            }
+        }
+        reviews()
     }, []);
     // console.log(testimoni)
     // console.log("data product:", data)
 
     function geserKiri() {
+        if (testimoni.length === 0) {
+            return
+        }
         if(idx > 0) {
             setIdx((prev)=>prev-1)
             return
@@ -48,12 +67,25 @@ function Home() {
     }
 
     function geserKanan() {
+        if (testimoni.length === 0) {
+            return
+        }
         if(idx < testimoni.length - 1){
             setIdx((prev)=>prev+1)
             return
         }
         setIdx(0)
         // console.log(idx)
+    }
+
+    function renderStars(rating) {
+        const safeRating = Math.max(0, Math.min(5, Number(rating) || 0))
+        return Array.from({ length: 5 }, (_, index) => (
+            <IoStar
+                key={index}
+                className={index < safeRating ? "text-[#FF8906]" : "text-gray-500"}
+            />
+        ))
     }
 
     return (
@@ -159,23 +191,19 @@ function Home() {
                     <div className="flex flex-col gap-5 text-white justify-between">
                         <p>Testimonial</p>
                         {
-                            testimoni &&
+                            testimoni.length > 0 &&
                             <div className="flex flex-col gap-5 text-white">
-                                <h2 className="text-white font-medium text-4xl">{testimoni[idx]?.name}</h2>
-                                <p className="text-[#FF8906]">{testimoni[idx]?.jobTitle}</p>
-                                <p>"{testimoni[idx]?.testimoni}"</p>
+                                <h2 className="text-white font-medium text-4xl">{testimoni[idx]?.full_name}</h2>
+                                <p>"{testimoni[idx]?.messages}"</p>
                                 <div className="flex gap-2 items-center">
-                                    {
-                                        
-                                    }
-                                    <IoStar className="text-[#FF8906]"/>
-                                    <IoStar className="text-[#FF8906]"/>
-                                    <IoStar className="text-[#FF8906]"/>
-                                    <IoStar className="text-[#FF8906]"/>
-                                    <IoStar className="text-[#FF8906]"/>
-                                    <span>{testimoni[idx]?.stars}.0</span>
+                                    {renderStars(testimoni[idx]?.rating)}
+                                    <span>{testimoni[idx]?.rating || 0}.0</span>
                                 </div>
                             </div>
+                        }
+                        {
+                            testimoni.length === 0 &&
+                            <p className="text-gray-300">Belum ada review.</p>
                         }
                         <div className="flex flex-col gap-5">
                             <div className="flex gap-2">
