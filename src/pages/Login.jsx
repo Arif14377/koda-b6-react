@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import SsoSign from "../components/SosialSignButton.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/reducers/sessionReducer.js";
 import http from "../lib/http.js";
 
@@ -19,6 +19,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const token = useSelector((state) => state.session.token);
 
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -37,10 +38,13 @@ function Login() {
           opts: { method: "POST" },
         }
       );
-      const sessionUser = {
-        email: result?.results?.email || values.email,
+      const sessionData = {
+        user: {
+          email: result?.results?.email || values.email,
+        },
+        token: result?.results?.token,
       };
-      dispatch(login(sessionUser));
+      dispatch(login(sessionData));
       alert("Login berhasil.");
       navigate("/");
     } catch (err) {

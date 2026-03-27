@@ -10,6 +10,7 @@ const initialState = {
     role: "",
   },
   isLogin: false,
+  token: null,
 };
 
 // membuat reducer, dan membuat action secara otomatis
@@ -18,16 +19,20 @@ const sessionReducer = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
       state.isLogin = true;
     },
     logout: (state) => {
-      state.user.id = null;
-      state.user.name = "";
-      state.user.email = "";
-      state.user.phone = "";
-      state.user.address = "";
-      state.user.role = "";
+      state.user = {
+        id: null,
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        role: "",
+      };
+      state.token = null;
       state.isLogin = false;
     },
     updateSessionUser: (state, action) => {

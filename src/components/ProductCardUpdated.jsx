@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {addCart, updateCart} from '../redux/reducers/cartReducer'
 
-const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isFlashSale, rating}) => {
+const ProductCardUpdated = ({id, image, name, description, price, oldPrice, isFlashSale, rating}) => {
 // TODO: fitur add to cart dengan redux
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart.carts);
@@ -34,7 +34,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
       qty: 1,
       size: "Regular",
       variant: "Ice",
-      img: imgUrl?.[0] || "",
+      img: image || "",
       isFlashSale: isFlashSale
     }
     // console.log("productToCart: ", productToCart) ## berhasil masuk datanya
@@ -99,8 +99,7 @@ const ProductCardUpdated = ({id, imgUrl, name, description, price, oldPrice, isF
       {/* Gambar */}
       <div className="h-48 overflow-hidden relative">
         <img
-          // TODO: tambahkan gambar di database
-          // src={imgUrl[0]}
+          src={image || ""}
           alt={name}
           className="w-full h-full object-cover"
         />

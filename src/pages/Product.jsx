@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import ReusableTitle from "../components/ReusableTitle"
 import {useEffect, useState} from "react";
 
-const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+const URL = "http://localhost:8888/products"
 
 function Product() {
     // Dummy Data Product (hasil fetch JSON)
@@ -18,8 +18,15 @@ function Product() {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const result = await getData(URL);
-            setProducts(result)
+            try {
+                const result = await getData(URL);
+                console.log("API Result:", result); // Debug log
+                if (result.success) {
+                    setProducts(result.results);
+                }
+            } catch (error) {
+                console.error("Gagal mengambil produk:", error);
+            }
         }
         fetchProducts();
     }, []);
@@ -31,32 +38,27 @@ function Product() {
     // console.log(filter);
 
     const filtered = products.filter(item => {
-        // console.log("category item : ", item.category);
-        // console.log("promo item : ", item.promo)
-
+        const nameMatch = item.name.toLowerCase().includes(filter.search.toLowerCase().trim());
+        
         // filter category dan promo kosong, return berdasarkan pencarian saja (default string kosong)
-        if (filter.category.length === 0 && filter.promo.length === 0) {
-            return item.name.toLowerCase().includes(filter.search.toLocaleLowerCase().trim())
-        } else if (filter.category.length >= 1 && filter.promo.length === 0) { //hanya ada filter category
-            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) || filter.category.some(cat => {
-                return item.category.includes(cat)
-            })
-        } else if (filter.promo.length >= 1 && filter.category.length === 0) { //hanya ada filter promo
-            return item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) || filter.promo.some(promo => {
-                return item.promo.includes(promo)
-            })
+        if (!filter.category || !filter.promo || (filter.category.length === 0 && filter.promo.length === 0)) {
+            return nameMatch;
         }
+        
+        // Selebihnya biarkan karena API baru mungkin belum sedia kategori di list.
+        // Namun kita harus pastikan item.category dan item.promo ada (atau default ke [])
+        const itemCategories = item.category || [];
+        const itemPromo = item.promo || [];
 
-        // kalau ada semuanya (promo, category, search name)
-        return (
-            item.name.toLowerCase().includes(filter.search.toLowerCase().trim()) ||
-            filter.category.some(cat => {
-                return item.category.includes(cat)
-            }) ||
-                filter.promo.some(promo => {
-                    return item.promo.includes(promo)
-                })
-        )
+        const categoryMatch = filter.category.length === 0 || filter.category.some(cat => {
+            return itemCategories.includes(cat)
+        });
+
+        const promoMatch = filter.promo.length === 0 || filter.promo.some(promo => {
+            return itemPromo.includes(promo)
+        });
+
+        return nameMatch && categoryMatch && promoMatch;
     })
 
     return (
@@ -83,9 +85,9 @@ function Product() {
                                 <ProductCardUpdated
                                     key={product.id}
                                     id={product.id}
-                                    imgUrl={product.imgUrl}
+                                    image={product.image}
                                     name={product.name}
-                                    desc={product.description}
+                                    description={product.description}
                                     rating={product.rating}
                                     oldPrice={product.oldPrice}
                                     price={product.price}

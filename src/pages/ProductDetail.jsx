@@ -11,34 +11,56 @@ import { BsCart3 } from 'react-icons/bs';
 import { useDispatch, useSelector } from "react-redux";
 import {addCart, updateCart} from '../redux/reducers/cartReducer'
 
-const URL = "https://raw.githubusercontent.com/Arif14377/koda-b6-react/refs/heads/main/data.json"
+const URL = "http://localhost:8888/products"
 
 function ProductDetail() {
-    const [data, setData] = useState([])
+    const [dataToShow, setDataToShow] = useState(null)
     const [qty, setQty] = useState(1)
     const [size, setSize] = useState("Regular")
     const [variant, setVariant] = useState("Ice")
     const [bigImage, setBigImage] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
     const user = useSelector(state => state.session.user)
     const isLogin = useSelector(state => state.session.isLogin)
     const cart = useSelector(state => state.cart.carts)
     const dispatch = useDispatch()
 
+    const {id} = useParams()
+
     // ambil data product
     useEffect(() => {
         async function fetchData() {
-            const result = await getData(URL)
-            setData(result)
+            try {
+                const result = await getData(`${URL}/${id}`)
+                if (result.success) {
+                    setDataToShow(result.results)
+                    if (result.results.image) {
+                        setBigImage(result.results.image)
+                    } else if (result.results.images && result.results.images.length > 0) {
+                        setBigImage(result.results.images[0].path)
+                    }
+                }
+            } catch (error) {
+                console.error("Gagal mengambil detail produk:", error)
+            } finally {
+                setIsLoading(false)
+            }
         }
         fetchData()
-    }, []);
+    }, [id]);
 
-    const {id} = useParams()
-    const isProductExist = data.some(data => data.id === Number(id))
-    const dataToShow = data.find(data => data.id === Number(id))
+    if(isLoading) {
+        return (
+            <div>
+                <Navbar variants={"black"}/>
+                <div className="flex justify-center items-center h-screen">
+                    <h1 className="font-bold text-4xl">Loading...</h1>
+                </div>
+            </div>
+        )
+    }
     
-    
-    if(!isProductExist) {
+    if(!dataToShow) {
         return (
             <div>
                 <Navbar variants={"black"}/>
@@ -64,15 +86,15 @@ function ProductDetail() {
     // const pullCart = JSON.parse(localStorage.getItem("cart"))
     // TODO : Mengubah handle menjadi redux.
     const productToCart = {
-        UID: user.id,
+        UID: user?.id || "",
         id: id,
         name: dataToShow.name,
         price: dataToShow.price,
         qty: qty,
         size: size,
         variant: variant,
-        img: dataToShow.imgUrl?.[0] || "",
-        isFlashSale: dataToShow.isFlashSale
+        img: dataToShow.image || (dataToShow.images && dataToShow.images.length > 0 ? dataToShow.images[0].path : ""),
+        isFlashSale: dataToShow.isFlashSale || false
     }
     // let newCart = []
 
@@ -130,18 +152,16 @@ function ProductDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 mt-17.5 py-20 px-32 gap-4">
                 {/* Left */}
                 <div className="grid grid-cols-3 grid-rows-4 gap-4 h-fit">
-                    <img src={bigImage || dataToShow.imgUrl[0]} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
+                    <img src={bigImage || (dataToShow.images && dataToShow.images.length > 0 ? dataToShow.images[0].path : "")} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
                     {
-                        dataToShow.imgUrl.map((item, idx) => {
+                        dataToShow.images && dataToShow.images.length > 0 &&
+                        dataToShow.images.map((item, idx) => {
                             if (idx !== 0) {
-                                return <img key={idx} src={item} alt={dataToShow.name} className="object-cover w-full cursor-pointer" onClick={() => setBigImage(item)} />
+                                return <img key={idx} src={item.path} alt={dataToShow.name} className="object-cover w-full cursor-pointer" onClick={() => setBigImage(item.path)} />
                             }
+                            return null
                         })
                     }
-                    {/* <img src={dataToShow.imgUrl} alt={dataToShow.name} className="col-span-3 row-span-3 object-cover w-full" />
-                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="object-cover w-full" />
-                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="row-span-3 object-cover w-full" />
-                    <img src={dataToShow.imgUrl} alt={dataToShow.name} className="row-span-3 object-cover w-full" /> */}
                 </div>
                 {/* Right */}
                 <div className="flex flex-col gap-3">
