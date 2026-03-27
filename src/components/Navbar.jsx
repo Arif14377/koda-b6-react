@@ -1,7 +1,7 @@
 import { FiSearch, FiShoppingCart } from "react-icons/fi";
 import brandWhite from "../../public/assets/images/brand-white.png";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -30,12 +30,12 @@ function Navbar({ variants }) {
           <img src={brandWhite} alt="logo coffee shop" />
         </Link>
         <div className="hidden md:flex gap-8 text-sm font-medium">
-          <Link to="/" className="text-white">
+          <NavLink to="/" end className={({ isActive }) => isActive ? "text-white" : "text-gray-400 hover:text-white"}>
             Home
-          </Link>
-          <Link to="/product" className="text-gray-400 hover:text-white">
+          </NavLink>
+          <NavLink to="/product" className={({ isActive }) => isActive ? "text-white" : "text-gray-400 hover:text-white"}>
             Product
-          </Link>
+          </NavLink>
         </div>
       </div>
       {!isLogin ? (
