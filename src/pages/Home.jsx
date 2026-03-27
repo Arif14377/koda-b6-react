@@ -187,7 +187,12 @@ function Home() {
 
                 {/* Testimonial */}
                 <div className="flex flex-col md:flex-row gap-4 px-16 py-12" style={{ backgroundImage: `url(${bgTesti})` }}>
-                    <img src={viez} alt="Viez Robert - Customer" />
+                    {/*<img src={viez} alt="Viez Robert - Customer" />*/}
+                    <img
+                        src={testimoni[idx]?.picture || viez}
+                        alt={testimoni[idx]?.full_name || "Customer"}
+                        className="w-144.5 h-108 object-cover rounded-lg"
+                    />
                     <div className="flex flex-col gap-5 text-white justify-between">
                         <p>Testimonial</p>
                         {
