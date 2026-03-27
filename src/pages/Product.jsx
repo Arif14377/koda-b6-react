@@ -15,6 +15,8 @@ function Product() {
     // Dummy Data Product (hasil fetch JSON)
     const [products, setProducts] = useState([]);
     const [filter, setFilter] = useState({ search: '', category: [], promo: [] });
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -33,6 +35,7 @@ function Product() {
 
     function onFilter(values) {
         setFilter(values);
+        setCurrentPage(1); // Reset ke halaman 1 setiap kali filter berubah
     }
 
     // console.log(filter);
@@ -61,6 +64,17 @@ function Product() {
         return nameMatch && categoryMatch && promoMatch;
     })
 
+    // Pagination Logic
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     return (
         <div>
             <Navbar variants={"black"}/>
@@ -81,7 +95,7 @@ function Product() {
                     </div>
                     <div className="flex-1">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {filtered.map(product => (
+                            {currentItems.map(product => (
                                 <ProductCardUpdated
                                     key={product.id}
                                     id={product.id}
@@ -96,15 +110,32 @@ function Product() {
                             ))}
                         </div>
                         {/* Pagination Bottom */}
-                        <div className="flex justify-end items-center gap-3 mt-12">
-                            <button className="w-10 h-10 rounded-full bg-orange-500 text-white font-bold shadow-lg">1</button>
-                            <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition">2</button>
-                            <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition">3</button>
-                            <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition">4</button>
-                            <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg">
-                            <IoArrowForward />
-                            </button>
-                        </div>
+                        {totalPages > 1 && (
+                            <div className="flex justify-end items-center gap-3 mt-12">
+                                {[...Array(totalPages)].map((_, index) => (
+                                    <button
+                                        key={index + 1}
+                                        onClick={() => handlePageChange(index + 1)}
+                                        className={`w-10 h-10 rounded-full font-bold shadow-lg transition ${
+                                            currentPage === index + 1
+                                                ? "bg-orange-500 text-white"
+                                                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                        }`}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
+                                <button
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className={`w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg transition ${
+                                        currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-orange-600"
+                                    }`}
+                                >
+                                    <IoArrowForward />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

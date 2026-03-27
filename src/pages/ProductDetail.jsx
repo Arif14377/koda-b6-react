@@ -39,6 +39,12 @@ function ProductDetail() {
                     } else if (result.results.images && result.results.images.length > 0) {
                         setBigImage(result.results.images[0].path)
                     }
+                    if (result.results.sizes && result.results.sizes.length > 0) {
+                        setSize(result.results.sizes[0].name)
+                    }
+                    if (result.results.variants && result.results.variants.length > 0) {
+                        setVariant(result.results.variants[0].name)
+                    }
                 }
             } catch (error) {
                 console.error("Gagal mengambil detail produk:", error)
@@ -203,23 +209,39 @@ function ProductDetail() {
                         <h2 className="font-bold">Choose Size</h2>
                         <div className="flex gap-3">
                             {
-                                ["Regular", "Medium", "Large"].map((item, idx) => {
-                                    return (
-                                        <button key={idx} onClick={()=> setSize(item)} className={`border px-3 py-1 w-full cursor-pointer ${size === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
-                                    )
-                                })
+                                dataToShow.sizes && dataToShow.sizes.length > 0 ? (
+                                    dataToShow.sizes.map((item, idx) => {
+                                        return (
+                                            <button key={idx} onClick={()=> setSize(item.name)} className={`border px-3 py-1 w-full cursor-pointer ${size === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
+                                        )
+                                    })
+                                ) : (
+                                    ["Regular", "Medium", "Large"].map((item, idx) => {
+                                        return (
+                                            <button key={idx} onClick={()=> setSize(item)} className={`border px-3 py-1 w-full cursor-pointer ${size === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
+                                        )
+                                    })
+                                )
                             }
                         </div>
                     </div>
                     <div className="flex flex-col gap-3">
-                        <h2 className="font-bold">Hot/Ice?</h2>
+                        <h2 className="font-bold">Choose Variant</h2>
                         <div className="flex gap-3">
                             {
-                                ["Ice", "Hot"].map((item, idx) => {
-                                    return (
-                                        <button key={idx} onClick={()=> setVariant(item)} className={`border px-3 py-1 w-full cursor-pointer ${variant === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
-                                    )
-                                })
+                                dataToShow.variants && dataToShow.variants.length > 0 ? (
+                                    dataToShow.variants.map((item, idx) => {
+                                        return (
+                                            <button key={idx} onClick={()=> setVariant(item.name)} className={`border px-3 py-1 w-full cursor-pointer ${variant === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
+                                        )
+                                    })
+                                ) : (
+                                    ["Ice", "Hot"].map((item, idx) => {
+                                        return (
+                                            <button key={idx} onClick={()=> setVariant(item)} className={`border px-3 py-1 w-full cursor-pointer ${variant === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
+                                        )
+                                    })
+                                )
                             }
                         </div>
                     </div>
