@@ -156,10 +156,15 @@ function ProductDetail() {
                     {
                         dataToShow.images && dataToShow.images.length > 0 &&
                         dataToShow.images.map((item, idx) => {
-                            if (idx !== 0) {
-                                return <img key={idx} src={item.path} alt={dataToShow.name} className="object-cover w-full cursor-pointer" onClick={() => setBigImage(item.path)} />
-                            }
-                            return null
+                            return (
+                                <img 
+                                    key={idx} 
+                                    src={item.path} 
+                                    alt={`${dataToShow.name} ${idx + 1}`} 
+                                    className={`object-cover w-full aspect-square cursor-pointer border-2 ${bigImage === item.path ? "border-[#FF8906]" : "border-transparent"}`} 
+                                    onClick={() => setBigImage(item.path)} 
+                                />
+                            )
                         })
                     }
                 </div>
