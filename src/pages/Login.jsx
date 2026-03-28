@@ -35,16 +35,18 @@ function Login() {
         {
           url: "/auth/login",
           body: { email: values.email, password: values.password },
-          opts: { method: "POST" },
         }
       );
       const sessionData = {
         user: {
+          id: result?.results?.id,
           email: result?.results?.email || values.email,
+          name: result?.results?.fullName,
         },
         token: result?.results?.token,
       };
       dispatch(login(sessionData));
+      localStorage.setItem("token", sessionData.token);
       alert("Login berhasil.");
       navigate("/");
     } catch (err) {

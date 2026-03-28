@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { FaPlus } from "react-icons/fa6";
 import { CiCircleRemove } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,74 +12,113 @@ import Paypal from "../../public/assets/images/paypal.svg"
 import Footer from "../components/Footer"
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, resetCart } from "../redux/reducers/cartReducer"
+import http from "../lib/http";
 
 const PPN = 0.1
 
 function CheckoutProduct() {
-    // DONE: ubah cart dari getItem dengan local storage menjadi ambil dari cart redux.
-    // DONE: hanya tampilkan cart berdasarkan session user saat ini.
-    // const [cart, setCart] = useState([])
     const navigate = useNavigate()
     const user = useSelector(state => state.session.user)
     const isLogin = useSelector(state => state.session.isLogin)
+    const token = useSelector(state => state.session.token)
     const dispatch = useDispatch()
-    // cart seluruhnya
+    
+    const [cart, setCart] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const fetchCart = useCallback(async () => {
+        if (!token) return;
+        try {
+            setLoading(true)
+            const response = await http({
+                url: "/cart",
+                opts: {
+                    method: "GET",
+                    token: token
+                }
+            })
+            if (response.success) {
+                setCart(response.results || [])
+            }
+        } catch (error) {
+            console.error("Gagal mengambil data keranjang:", error)
+        } finally {
+            setLoading(false)
+        }
+    }, [token])
+
     useEffect(()=>{
         if(!isLogin) {
             alert("Silahkan login terlebih dahulu.")
             navigate("/login", {replace: true})
+        } else {
+            fetchCart()
         }
-    }, [])
-    const carts = useSelector(state => state.cart.carts)
-    // cart user saat ini
+    }, [isLogin, navigate, fetchCart])
 
-    const cart = carts.filter(item => item.UID === user.id)
-    // console.log(cart)
-
-    // useEffect(()=>{
-    //     const pullCart = JSON.parse(localStorage.getItem("cart")) || []
-    //     setCart(pullCart)
-    // }, [])
-
-    const subTotal = cart.reduce((total, item) => total + (item.price * (item.qty || 1)), 0);
+    const subTotal = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
     const tax = subTotal * PPN;
     const grandTotal = subTotal + tax; 
 
-    function removeItem(target) {
-        dispatch(removeCart(target))
-        // const newCart = cart.filter(item => !(Number(item.id) === Number(target.id) && item.size === target.size && item.variant === target.variant));
-        // DONE: ubah handle remove ke redux.
-        // setCart(newCart);
-        // localStorage.setItem("cart", JSON.stringify(newCart));
+    async function removeItem(item) {
+        try {
+            const response = await http({
+                url: `/cart/${item.id}`,
+                opts: {
+                    method: "DELETE",
+                    token: token
+                }
+            })
+            if (response.success) {
+                fetchCart()
+                // Juga hapus dari redux jika masih ada (opsional untuk sinkronisasi jika komponen lain pakai redux)
+                dispatch(removeCart({ id: item.productId, size: item.size, variant: item.variant }))
+            }
+        } catch (error) {
+            console.error("Gagal menghapus item:", error)
+            alert("Gagal menghapus item dari keranjang")
+        }
     }
 
-    function checkout() {
+    async function checkout() {
         if (!cart || cart.length === 0) {
             alert("Cart kosong")
             return
         }
 
         const order = {
-            UID: user.id,
-            id: Date.now(),
-            items: cart,
-            subtotal: subTotal,
-            tax: tax,
-            total: grandTotal,
-            date: new Date().toISOString()
+            delivery_method: "Dine In", // Default
+            full_name: user.name || user.email,
+            email: user.email,
+            address: "Store Address", // Default for Dine In
+            sub_total: Math.round(subTotal),
+            tax: Math.round(tax),
+            total: Math.round(grandTotal),
+            payment_method: "Cash", // Default
+            status: "Pending"
         }
 
-        const pullHistory = JSON.parse(localStorage.getItem("history")) || []
-        const newHistory = [order, ...pullHistory]
-        localStorage.setItem("history", JSON.stringify(newHistory))
+        try {
+            const response = await http({
+                url: "/history",
+                body: order,
+                opts: {
+                    method: "POST",
+                    token: token
+                }
+            })
 
-        // clear cart
-        // localStorage.removeItem("cart")
-        // setCart([])
-        dispatch(resetCart(user.id))
-
-        alert("Checkout berhasil, order disimpan ke history")
-        navigate('/history')
+            if (response.success) {
+                dispatch(resetCart(user.id))
+                alert("Checkout berhasil!")
+                navigate('/history')
+            } else {
+                alert("Gagal melakukan checkout: " + (response.message || "Unknown error"))
+            }
+        } catch (error) {
+            console.error("Error during checkout:", error)
+            alert("Terjadi kesalahan saat checkout")
+        }
     }
 
     return (
@@ -98,16 +137,21 @@ function CheckoutProduct() {
                             </Link>
                         </div>
                         {/* Card product in cart */}
-                        {cart && cart.length > 0 ? (
+                        {loading ? (
+                            <p>Loading cart...</p>
+                        ) : cart && cart.length > 0 ? (
                             cart.map((item, idx) => (
-                                <div key={`${item.id}-${item.size}-${item.variant}-${idx}`} className="flex gap-3 items-center justify-between bg-[#E8E8E84D] py-2 px-2">
+                                <div key={`${item.id}-${idx}`} className="flex gap-3 items-center justify-between bg-[#E8E8E84D] py-2 px-2">
                                     <div className="flex gap-6">
-                                        <img src={item.img} alt={item.name} className="w-20 h-20 object-cover rounded" />
+                                        <img src={item.image} alt={item.productName} className="w-20 h-20 object-cover rounded" />
                                         <div>
-                                            {item.isFlashSale && <p className="text-sm text-red-600 font-semibold">Flash Sale</p>}
-                                            <h3 className="font-medium">{item.name}</h3>
-                                            <p className="text-sm text-gray-500">{item.qty || 1}pcs | {item.size} | {item.variant}</p>
-                                            <p className="font-semibold">IDR {(item.price * (item.qty || 1)).toLocaleString("id-ID")}</p>
+                                            <h3 className="font-medium">{item.productName}</h3>
+                                            <p className="text-sm text-gray-500">
+                                                {item.quantity || 1}pcs 
+                                                {item.size && ` | ${item.size}`} 
+                                                {item.variant && ` | ${item.variant}`}
+                                            </p>
+                                            <p className="font-semibold">IDR {(item.price * (item.quantity || 1)).toLocaleString("id-ID")}</p>
                                         </div>
                                     </div>
                                     <button onClick={() => removeItem(item)} className="cursor-pointer">

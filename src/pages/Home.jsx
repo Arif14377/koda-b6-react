@@ -171,7 +171,12 @@ function Home() {
                         {
                             data.slice(0,4).map((data)=>{
                                 return (
-                                    <ProductCardUpdated key={data.id} {...data} />
+                                    <ProductCardUpdated 
+                                        key={data.id} 
+                                        {...data} 
+                                        variants={data.variants}
+                                        sizes={data.sizes}
+                                    />
                                 )
                             })
                         }

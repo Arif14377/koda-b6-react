@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react"
 import { getData } from "../lib/fetch"
+import http from "../lib/http"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -16,14 +17,16 @@ const URL = "http://localhost:8888/products"
 function ProductDetail() {
     const [dataToShow, setDataToShow] = useState(null)
     const [qty, setQty] = useState(1)
-    const [size, setSize] = useState("Regular")
-    const [variant, setVariant] = useState("Ice")
+    const [size, setSize] = useState(null)
+    const [variant, setVariant] = useState(null)
     const [bigImage, setBigImage] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const user = useSelector(state => state.session.user)
     const isLogin = useSelector(state => state.session.isLogin)
+    const token = useSelector(state => state.session.token)
     const cart = useSelector(state => state.cart.carts)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const {id} = useParams()
 
@@ -40,10 +43,10 @@ function ProductDetail() {
                         setBigImage(result.results.images[0].path)
                     }
                     if (result.results.sizes && result.results.sizes.length > 0) {
-                        setSize(result.results.sizes[0].name)
+                        setSize({name: result.results.sizes[0].name, addPrice: result.results.sizes[0].addPrice})
                     }
                     if (result.results.variants && result.results.variants.length > 0) {
-                        setVariant(result.results.variants[0].name)
+                        setVariant({name: result.results.variants[0].name, addPrice: result.results.variants[0].addPrice})
                     }
                 }
             } catch (error) {
@@ -91,63 +94,53 @@ function ProductDetail() {
     // fungsi tambah produk ke keranjang
     // const pullCart = JSON.parse(localStorage.getItem("cart"))
     // TODO : Mengubah handle menjadi redux.
+    const dynamicPrice = dataToShow.price + (size?.addPrice || 0) + (variant?.addPrice || 0)
     const productToCart = {
         UID: user?.id || "",
-        id: id,
+        id: Number(id),
         name: dataToShow.name,
-        price: dataToShow.price,
+        price: dynamicPrice,
         qty: qty,
-        size: size,
-        variant: variant,
+        size: size?.name || null,
+        variant: variant?.name || null,
         img: dataToShow.image || (dataToShow.images && dataToShow.images.length > 0 ? dataToShow.images[0].path : ""),
         isFlashSale: dataToShow.isFlashSale || false
     }
     // let newCart = []
 
-    function addToCart() {
+    async function addToCart(redirect = false) {
         // jika belum login
         if(!isLogin) {
-        alert("Anda belum login. Login terlebih dahulu.")
-        navigate("/login")
-        return
-        }
-
-        // jika cart kosong -> dispatch objek item untuk dipush ke state redux.
-        if(cart.length < 1) {
-            dispatch(addCart(productToCart))
-            alert("Produk berhasil ditambahakan ke keranjang.")
+            alert("Anda belum login. Login terlebih dahulu.")
+            navigate("/login")
             return
         }
-        
-        // Cek apakah ada produk ada di cart?
-        const isExist = cart.find(item => 
-            Number(item.UID) === Number(productToCart.id) &&
-            Number(item.id) === productToCart.id &&
-            item.size === productToCart.size &&
-            item.variant === productToCart.variant
-        )
 
-        // Produk ada di cart, maka buat array of object cart baru
-        if(isExist) {
-            const newCart = cart.map(item => {
-                if (
-                    Number(item.UID) === Number(productToCart.id) &&
-                    Number(item.id) === Number(productToCart.id) &&
-                    item.size === productToCart.size &&
-                    item.variant === productToCart.variant
-                ) {
-                    return {...item, qty: item.qty + productToCart.qty}
+        try {
+            // Persiapkan data untuk backend
+            const cartData = {
+                productId: productToCart.id,
+                quantity: productToCart.qty,
+                sizeId: size ? dataToShow.sizes?.find(s => s.name === size.name)?.id : null,
+                variantId: variant ? dataToShow.variants?.find(v => v.name === variant.name)?.id : null
+            }
+
+            const response = await http({
+                url: "/cart",
+                body: cartData,
+                opts: {
+                    method: "POST",
+                    token: token
                 }
-                return item
-                })
-            // console.log(newCart)
-            dispatch(updateCart(newCart))
-            alert("Produk berhasil ditambahkan ke keranjang")
-            return
-        } else {  //Product tidak ada di cart, dispatch(addCart(...))
-            dispatch(addCart(productToCart))
-            alert("Produk berhasil ditambahakan ke keranjang.")
-            return
+            })
+
+            if (response.success) {
+                alert("Produk berhasil ditambahkan ke keranjang.")
+                if (redirect) navigate("/checkout-product")
+            }
+        } catch (error) {
+            console.error("Gagal menambah ke keranjang:", error)
+            alert(error.message || "Gagal menambahkan produk ke keranjang. Silakan coba lagi.")
         }
     }
 
@@ -183,8 +176,10 @@ function ProductDetail() {
                     )}
                     <h1 className="text-5xl font-medium">{dataToShow.name}</h1>
                     <div className="flex items-start gap-4 [&>p]:font-medium">
-                        <p className="text-[#D00000] text-lg line-through">IDR {dataToShow.oldPrice.toLocaleString("id-ID")}</p>
-                        <p className="text-[#FF8906] text-2xl">IDR {dataToShow.price.toLocaleString("id-ID")}</p>
+                        {dataToShow.oldPrice && Number(dataToShow.oldPrice) > 0 ? (
+                            <p className="text-[#D00000] text-lg line-through">IDR {Number(dataToShow.oldPrice).toLocaleString("id-ID")}</p>
+                        ) : null}
+                        <p className="text-[#FF8906] text-2xl">IDR {(dataToShow.price + (size?.addPrice || 0) + (variant?.addPrice || 0)).toLocaleString("id-ID")}</p>
                     </div>
                     <div className="flex gap-2">
                         <FaStar color="#FF8906"/>
@@ -203,51 +198,43 @@ function ProductDetail() {
                     <div className="flex gap-8 w-fit items-center">
                         <button onClick={minQty} className="w-8 h-8 cursor-pointer border border-[#FF8906] rounded">-</button>
                         <p>{qty}</p>
-                        <button onClick={addQty}className="w-8 h-8 cursor-pointer bg-[#FF8906] rounded">+</button>
+                        <button onClick={addQty} className="w-8 h-8 cursor-pointer bg-[#FF8906] rounded">+</button>
                     </div>
-                    <div className="flex flex-col gap-3">
-                        <h2 className="font-bold">Choose Size</h2>
-                        <div className="flex gap-3">
-                            {
-                                dataToShow.sizes && dataToShow.sizes.length > 0 ? (
-                                    dataToShow.sizes.map((item, idx) => {
-                                        return (
-                                            <button key={idx} onClick={()=> setSize(item.name)} className={`border px-3 py-1 w-full cursor-pointer ${size === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
-                                        )
-                                    })
-                                ) : (
-                                    ["Regular", "Medium", "Large"].map((item, idx) => {
-                                        return (
-                                            <button key={idx} onClick={()=> setSize(item)} className={`border px-3 py-1 w-full cursor-pointer ${size === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
-                                        )
-                                    })
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-3">
-                        <h2 className="font-bold">Choose Variant</h2>
-                        <div className="flex gap-3">
-                            {
-                                dataToShow.variants && dataToShow.variants.length > 0 ? (
-                                    dataToShow.variants.map((item, idx) => {
-                                        return (
-                                            <button key={idx} onClick={()=> setVariant(item.name)} className={`border px-3 py-1 w-full cursor-pointer ${variant === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
-                                        )
-                                    })
-                                ) : (
-                                    ["Ice", "Hot"].map((item, idx) => {
-                                        return (
-                                            <button key={idx} onClick={()=> setVariant(item)} className={`border px-3 py-1 w-full cursor-pointer ${variant === item ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item}</button>
-                                        )
-                                    })
-                                )
-                            }
-                        </div>
-                    </div>
+                    {
+                        dataToShow.sizes && dataToShow.sizes.length > 0 && (
+                            <div className="flex flex-col gap-3">
+                                <h2 className="font-bold">Choose Size</h2>
+                                <div className="flex gap-3">
+                                    {
+                                        dataToShow.sizes.map((item, idx) => {
+                                            return (
+                                                <button key={idx} onClick={()=> setSize({name: item.name, addPrice: item.addPrice})} className={`border px-3 py-1 w-full cursor-pointer ${size?.name === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
+                    {
+                        dataToShow.variants && dataToShow.variants.length > 0 && (
+                            <div className="flex flex-col gap-3">
+                                <h2 className="font-bold">Choose Variant</h2>
+                                <div className="flex gap-3">
+                                    {
+                                        dataToShow.variants.map((item, idx) => {
+                                            return (
+                                                <button key={idx} onClick={()=> setVariant({name: item.name, addPrice: item.addPrice})} className={`border px-3 py-1 w-full cursor-pointer ${variant?.name === item.name ? "border-[#FF8906]" : "border-[#E8E8E8]"}`}>{item.name}</button>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
                     <div className="flex gap-3 *:w-full">
-                        <Link to={'/checkout-product'}><Button label={"Buy"} variant={"primary"} onClick={addToCart} /></Link>
-                        <button className="flex items-center gap-2 md:gap-4 justify-center border border-[#FF8906] text-[#FF8906] p-2 rounded hover:bg-orange-50 cursor-pointer" onClick={addToCart}>
+                        <Button label={"Buy"} variant={"primary"} onClick={() => addToCart(true)} />
+                        <button className="flex items-center gap-2 md:gap-4 justify-center border border-[#FF8906] text-[#FF8906] p-2 rounded hover:bg-orange-50 cursor-pointer" onClick={() => addToCart(false)}>
                             <BsCart3 size={20} /> add to cart
                         </button>
                     </div>

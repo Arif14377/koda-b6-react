@@ -106,6 +106,8 @@ function Product() {
                                     oldPrice={product.oldPrice}
                                     price={product.price}
                                     isFlashSale={product.isFlashSale}
+                                    variants={product.variants}
+                                    sizes={product.sizes}
                                 />
                             ))}
                         </div>

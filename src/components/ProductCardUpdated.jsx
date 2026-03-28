@@ -2,87 +2,49 @@ import { BsCart3 } from 'react-icons/bs';
 import { IoStar } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import {addCart, updateCart} from '../redux/reducers/cartReducer'
+import http from "../lib/http"
 
-const ProductCardUpdated = ({id, image, name, description, price, oldPrice, isFlashSale, rating}) => {
-// TODO: fitur add to cart dengan redux
-  const dispatch = useDispatch()
-  const cart = useSelector(state => state.cart.carts);
-  // console.log(cart)
+const ProductCardUpdated = ({id, image, name, description, price, oldPrice, isFlashSale, rating, variants, sizes}) => {
   const isLogin = useSelector(state => state.session.isLogin);
-  const user = useSelector(state => state.session.user);
+  const token = useSelector(state => state.session.token);
   const navigate = useNavigate()
-  // console.log(isLogin)
-  // console.log(user)
 
   const maxStar = 5;
-  // const pullCart = JSON.parse(localStorage.getItem("cart")) || []
 
-  //
-  function addToCart() {
+  async function addToCart() {
     if(!isLogin) {
       alert("Anda belum login. Login terlebih dahulu.")
       navigate("/login")
       return
     }
 
-    const productToCart = {
-      UID: user.id,
-      id: id,
-      name: name,
-      price,
-      qty: 1,
-      size: "Regular",
-      variant: "Ice",
-      img: image || "",
-      isFlashSale: isFlashSale
-    }
-    // console.log("productToCart: ", productToCart) ## berhasil masuk datanya
-    
-    // jika tidak ada, lanjut no.5
-    // [v] 2. cek apakah productToCart sudah ada di keranjang?
-    // [] 3. Jika ada, maka tambahkan qty saja bersama isian keranjang lainnya
-    // [v] 4. jika tidak ada, maka tambahkan productToCart bersama isian keranjang lainnya
-    // [v] 5. jika keranjang kosong, push productToCart.
-    
-    // cart kosong -> push addToCart
-    if (!cart) {
-      dispatch(addCart(productToCart))
-      alert("Produk berhasil ditambahkan ke keranjang")
-      return
-    }
+    try {
+      const selectedSize = sizes && sizes.length > 0 ? sizes[0] : null;
+      const selectedVariant = variants && variants.length > 0 ? variants[0] : null;
 
-    // cart ada isinya -> cek apakah ada produk yang sama (by id, size, variant)
-    const isExist = cart.find(item =>
-      Number(item.UID) === Number(productToCart.id) &&
-      Number(item.id) === Number(productToCart.id) &&
-      item.size === productToCart.size &&
-      item.variant === productToCart.variant
-    )
-
-    // tidak ada yang sama -> push langsung ke cart
-    if(!isExist) {
-      dispatch(addCart(productToCart))
-      alert("Produk berhasil ditambahkan ke keranjang")
-      return
-    }
-
-    // kalau ada yang sama, tambahkan qtynya saja
-    // map cart, tambahkan qty jika ada isExist, updateCart() - reducer
-    const newCart = cart.map(item => {
-      if (
-        Number(item.UID) === Number(productToCart.id) &&
-        Number(item.id) === Number(productToCart.id) &&
-        item.size === productToCart.size &&
-        item.variant === productToCart.variant
-      ) {
-        return {...item, qty: item.qty + productToCart.qty}
+      const cartData = {
+        productId: Number(id),
+        quantity: 1,
+        sizeId: selectedSize?.id || null,
+        variantId: selectedVariant?.id || null
       }
-      return item
-    })
-    // console.log(newCart)
-    dispatch(updateCart(newCart))
-    alert("Produk berhasil ditambahkan ke keranjang")
+
+      const response = await http({
+        url: "/cart",
+        body: cartData,
+        opts: {
+          method: "POST",
+          token: token
+        }
+      })
+
+      if (response.success) {
+        alert("Produk berhasil ditambahkan ke keranjang.")
+      }
+    } catch (error) {
+      console.error("Gagal menambah ke keranjang:", error)
+      alert(error.message || "Gagal menambahkan produk ke keranjang. Silakan coba lagi.")
+    }
   }
 
 
@@ -122,7 +84,7 @@ const ProductCardUpdated = ({id, image, name, description, price, oldPrice, isFl
 
         {/* Harga */}
         <div className="flex items-center gap-2 mb-4">
-            {oldPrice ? (
+            {oldPrice && Number(oldPrice) > 0 ? (
               <span className="text-red-400 text-xs line-through decoration-red-500 decoration-1">IDR {Number(oldPrice).toLocaleString("id-ID")}</span>
             ) : null}
             <span className="text-orange-500 font-bold text-lg">IDR {Number(price).toLocaleString("id-ID")}</span>

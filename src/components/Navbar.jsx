@@ -76,6 +76,7 @@ function Navbar({ variants }) {
                 <Link to={'/profile'}>Profile</Link>
                 <p onClick={() => {
                   dispatch(logout());
+                  localStorage.removeItem("token");
                   alert("Berhasil logout.")
                   navigate("/")
                 }}>Logout</p>
