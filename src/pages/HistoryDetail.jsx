@@ -24,7 +24,13 @@ function OrderDetail() {
                 return
             }
             try {
-                const response = await http(`http://localhost:8888/history/${orderId}`, "GET", null, token)
+                const response = await http({
+                    url: `/history/${orderId}`,
+                    opts: {
+                        method: "GET",
+                        token: token
+                    }
+                })
                 if (response.success) {
                     setSelectedOrder(response.results)
                 }

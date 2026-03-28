@@ -10,7 +10,6 @@ import viez from "../../public/assets/images/img-viez.png"
 import { IoStar, IoArrowForwardCircle, IoArrowBackCircleSharp } from "react-icons/io5";
 import bgTesti from "../../public/assets/images/bg-testimonial.png"
 import Footer from "../components/Footer"
-import { getData } from "../lib/fetch"
 import { Link } from "react-router-dom"
 import ProductCardUpdated from "../components/ProductCardUpdated"
 import {useEffect, useState} from "react";

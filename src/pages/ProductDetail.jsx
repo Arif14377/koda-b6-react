@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react"
-import { getData } from "../lib/fetch"
 import http from "../lib/http"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
@@ -34,7 +33,10 @@ function ProductDetail() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const result = await getData(`${URL}/${id}`)
+                const result = await http({
+                    url: `/products/${id}`,
+                    opts: { method: "GET" }
+                })
                 if (result.success) {
                     setDataToShow(result.results)
                     if (result.results.image) {

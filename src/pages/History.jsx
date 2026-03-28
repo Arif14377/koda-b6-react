@@ -17,7 +17,13 @@ function History() {
                 return
             }
             try {
-                const response = await http("http://localhost:8888/history", "GET", null, token)
+                const response = await http({
+                    url: "/history",
+                    opts: {
+                        method: "GET",
+                        token: token
+                    }
+                })
                 if (response.success) {
                     setHistory(response.results || [])
                 }

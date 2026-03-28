@@ -4,7 +4,7 @@ import PromoSlider from '../components/PromoSlider';
 import FilterSidebar from '../components/FilterSidebar';
 import ProductCardUpdated from '../components/ProductCardUpdated';
 import { IoArrowForward } from 'react-icons/io5';
-import { getData } from "../lib/fetch";
+import http from "../lib/http";
 import Footer from "../components/Footer";
 import ReusableTitle from "../components/ReusableTitle"
 import {useEffect, useState} from "react";
@@ -21,7 +21,10 @@ function Product() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const result = await getData(URL);
+                const result = await http({
+                    url: "/products",
+                    opts: { method: "GET" }
+                });
                 console.log("API Result:", result); // Debug log
                 if (result.success) {
                     setProducts(result.results);

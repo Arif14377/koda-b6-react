@@ -24,7 +24,21 @@ function CheckoutProduct() {
     const dispatch = useDispatch()
     
     const [cart, setCart] = useState([])
+    const [deliveryMethods, setDeliveryMethods] = useState([])
     const [loading, setLoading] = useState(true)
+
+    // Form states
+    const [email, setEmail] = useState(user?.email || "")
+    const [fullName, setFullName] = useState(user?.fullName || user?.name || "")
+    const [address, setAddress] = useState(user?.address || "")
+    const [deliveryMethod, setDeliveryMethod] = useState("Dine in")
+
+    useEffect(() => {
+        if (user) {
+            setEmail(user.email || "")
+            setFullName(user.fullName || user.name || "")
+        }
+    }, [user])
 
     const fetchCart = useCallback(async () => {
         if (!token) return;
@@ -47,6 +61,29 @@ function CheckoutProduct() {
         }
     }, [token])
 
+    const fetchDeliveryMethods = useCallback(async () => {
+        try {
+            const response = await http({
+                url: "/delivery-methods",
+                opts: {
+                    method: "GET"
+                }
+            })
+            if (response.success) {
+                setDeliveryMethods(response.results || [])
+                if (response.results?.length > 0) {
+                    setDeliveryMethod(response.results[0].name)
+                }
+            }
+        } catch (error) {
+            console.error("Gagal mengambil data metode pengiriman:", error)
+        }
+    }, [])
+
+    useEffect(() => {
+        fetchDeliveryMethods()
+    }, [fetchDeliveryMethods])
+
     useEffect(()=>{
         if(!isLogin) {
             alert("Silahkan login terlebih dahulu.")
@@ -57,8 +94,10 @@ function CheckoutProduct() {
     }, [isLogin, navigate, fetchCart])
 
     const subTotal = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
+    const selectedDelivery = deliveryMethods.find(m => m.name === deliveryMethod);
+    const deliveryFee = selectedDelivery ? selectedDelivery.price : 0;
     const tax = subTotal * PPN;
-    const grandTotal = subTotal + tax; 
+    const grandTotal = subTotal + tax + deliveryFee; 
 
     async function removeItem(item) {
         try {
@@ -87,10 +126,10 @@ function CheckoutProduct() {
         }
 
         const order = {
-            delivery_method: "Dine In", // Default
-            full_name: user.name || user.email,
-            email: user.email,
-            address: "Store Address", // Default for Dine In
+            delivery_method: deliveryMethod,
+            full_name: fullName,
+            email: email,
+            address: address || "Store Address",
             sub_total: Math.round(subTotal),
             tax: Math.round(tax),
             total: Math.round(grandTotal),
@@ -177,7 +216,7 @@ function CheckoutProduct() {
 
                             <div className="flex justify-between">
                                 <span>Delivery</span>
-                                <span>IDR 0</span>
+                                <span>IDR {deliveryFee.toLocaleString("id-ID")}</span>
                             </div>
 
                             <div className="flex justify-between">
@@ -204,6 +243,63 @@ function CheckoutProduct() {
                         </div>
                         <div className="mt-4 text-xs text-gray-500">
                             <p>*Get Discount if you pay with Bank Central Asia</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Payment Info & Delivery */}
+                <div className="col-span-3 flex flex-col gap-6">
+                    <h2 className="text-lg font-medium">Payment Info & Delivery</h2>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-semibold">Email</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter Your Email"
+                            className="border border-gray-300 rounded px-4 py-2 text-sm outline-none focus:border-[#FF8906]"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-semibold">Full Name</label>
+                        <input
+                            type="text"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            placeholder="Enter Your Full Name"
+                            className="border border-gray-300 rounded px-4 py-2 text-sm outline-none focus:border-[#FF8906]"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-semibold">Address</label>
+                        <input
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            placeholder="Enter Your Address"
+                            className="border border-gray-300 rounded px-4 py-2 text-sm outline-none focus:border-[#FF8906]"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-4">
+                        <label className="text-sm font-semibold">Delivery</label>
+                        <div className="flex gap-4">
+                            {deliveryMethods.map((method) => (
+                                <button
+                                    key={method.id}
+                                    onClick={() => setDeliveryMethod(method.name)}
+                                    className={`flex-1 py-2 px-4 rounded border transition-all cursor-pointer text-sm ${
+                                        deliveryMethod === method.name
+                                            ? "border-[#FF8906] text-[#FF8906] font-semibold"
+                                            : "border-gray-300 text-gray-500"
+                                    }`}
+                                >
+                                    {method.name}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
