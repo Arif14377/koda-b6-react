@@ -25,7 +25,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/koda-b6-frontend:latest
+          tags: ghcr.io/arif14377/koda-b6-frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -34,11 +34,10 @@ jobs:
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
           script: |
-            # Mengasumsikan file docker-compose.prod.yml ada di folder backend di server
             cd ~/server-arif/project-coffee-shop
             docker compose -f docker-compose.prod.yml pull nginx
             docker compose -f docker-compose.prod.yml up -d nginx
