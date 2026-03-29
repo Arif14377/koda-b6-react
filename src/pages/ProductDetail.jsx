@@ -3,13 +3,15 @@ import http from "../lib/http"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useParams, useNavigate } from "react-router-dom"
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { BsCart3 } from 'react-icons/bs';
 import { useDispatch, useSelector } from "react-redux";
 import {addCart, updateCart} from '../redux/reducers/cartReducer'
+import ProductCardUpdated from "../components/ProductCardUpdated"
+import ReusableTitle from "../components/ReusableTitle"
 
 const URL = "http://localhost:8888/products"
 
@@ -20,6 +22,9 @@ function ProductDetail() {
     const [variant, setVariant] = useState(null)
     const [bigImage, setBigImage] = useState("")
     const [isLoading, setIsLoading] = useState(true)
+    const [recommendations, setRecommendations] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 3
     const user = useSelector(state => state.session.user)
     const isLogin = useSelector(state => state.session.isLogin)
     const token = useSelector(state => state.session.token)
@@ -59,6 +64,31 @@ function ProductDetail() {
         }
         fetchData()
     }, [id]);
+
+    // Ambil data rekomendasi
+    useEffect(() => {
+        if (dataToShow) {
+            async function fetchRecommendations() {
+                try {
+                    const result = await http({
+                        url: "/products",
+                        opts: { method: "GET" }
+                    })
+                    if (result.success) {
+                        const filtered = result.results.filter(item => {
+                            const isSameCategory = item.category?.some(cat => dataToShow.category?.includes(cat))
+                            return isSameCategory && item.id !== dataToShow.id
+                        })
+                        setRecommendations(filtered)
+                        setCurrentPage(1)
+                    }
+                } catch (error) {
+                    console.error("Gagal mengambil rekomendasi:", error)
+                }
+            }
+            fetchRecommendations()
+        }
+    }, [dataToShow]);
 
     if(isLoading) {
         return (
@@ -145,6 +175,14 @@ function ProductDetail() {
             alert(error.message || "Gagal menambahkan produk ke keranjang. Silakan coba lagi.")
         }
     }
+
+    // Logic Pagination
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentItems = recommendations.slice(indexOfFirstItem, indexOfLastItem)
+    const totalPages = Math.ceil(recommendations.length / itemsPerPage)
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     return (
         <div>
@@ -242,6 +280,66 @@ function ProductDetail() {
                     </div>
                 </div>
             </div>
+
+            {/* Recommendation Section */}
+            <div className="flex flex-col px-8 md:px-16 lg:px-24 py-12 gap-12">
+                <ReusableTitle>Recommendation <span>For You</span></ReusableTitle>
+                
+                {recommendations.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {currentItems.map((item) => (
+                                <ProductCardUpdated 
+                                    key={item.id} 
+                                    {...item} 
+                                    variants={item.variants}
+                                    sizes={item.sizes}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center items-center gap-4 mt-8">
+                                <button 
+                                    onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className={`p-2 rounded-full border ${currentPage === 1 ? "text-gray-300 border-gray-300" : "text-[#FF8906] border-[#FF8906] cursor-pointer hover:bg-orange-50"}`}
+                                >
+                                    <FaChevronLeft size={20} />
+                                </button>
+                                
+                                <div className="flex gap-2">
+                                    {[...Array(totalPages)].map((_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => paginate(i + 1)}
+                                            className={`w-10 h-10 rounded-full font-bold transition-all ${
+                                                currentPage === i + 1 
+                                                ? "bg-[#FF8906] text-white" 
+                                                : "text-gray-500 hover:bg-orange-100 cursor-pointer"
+                                            }`}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button 
+                                    onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className={`p-2 rounded-full border ${currentPage === totalPages ? "text-gray-300 border-gray-300" : "text-[#FF8906] border-[#FF8906] cursor-pointer hover:bg-orange-50"}`}
+                                >
+                                    <FaChevronRight size={20} />
+                                </button>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <p className="text-center text-gray-500">No recommendations found for this category.</p>
+                )}
+            </div>
+
             <Footer/>
         </div>
     )
