@@ -40,7 +40,7 @@ jobs:
           script: |
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u arif14377 --password-stdin
             
-            cd ~/server-arif/project-coffee-shop
+            cd ~/server-arif
             docker compose -f docker-compose.prod.yml pull nginx
             docker compose -f docker-compose.prod.yml up -d nginx
             docker image prune -f
