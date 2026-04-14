@@ -97,7 +97,7 @@ function CheckoutProduct() {
     const selectedDelivery = deliveryMethods.find(m => m.name === deliveryMethod);
     const deliveryFee = selectedDelivery ? selectedDelivery.price : 0;
     const tax = subTotal * PPN;
-    const grandTotal = subTotal + tax + deliveryFee; 
+    const grandTotal = subTotal + tax + parseInt(deliveryFee); 
 
     async function removeItem(item) {
         try {

@@ -219,7 +219,7 @@ function ProductDetail() {
                         {dataToShow.oldPrice && Number(dataToShow.oldPrice) > 0 ? (
                             <p className="text-[#D00000] text-lg line-through">IDR {Number(dataToShow.oldPrice).toLocaleString("id-ID")}</p>
                         ) : null}
-                        <p className="text-[#FF8906] text-2xl">IDR {(dataToShow.price + (size?.addPrice || 0) + (variant?.addPrice || 0)).toLocaleString("id-ID")}</p>
+                        <p className="text-[#FF8906] text-2xl">IDR {(parseInt(dataToShow.price) + (parseInt(size?.addPrice) || 0) + (parseInt(variant?.addPrice) || 0)).toLocaleString("id-ID")}</p>
                     </div>
                     <div className="flex gap-2">
                         <FaStar color="#FF8906"/>
