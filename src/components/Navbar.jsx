@@ -1,5 +1,5 @@
 import { FiSearch, FiShoppingCart } from "react-icons/fi";
-import brandWhite from "../../public/assets/images/brand-white.png";
+import brandWhite from "../../assets/images/brand-white.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineHistoryEdu } from "react-icons/md";

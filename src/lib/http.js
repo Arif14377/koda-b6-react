@@ -11,7 +11,7 @@ async function http({url, body, opts = {}}) {
   // Jika token diberikan, sisipkan ke header.Authorization dalam format Bearer (standar JWT).
   if (opts.token) {
     headers.Authorization = `Bearer ${opts.token}`;
-    console.log("authorization: ", headers.Authorization)
+    // console.log("authorization: ", headers.Authorization)
   }
 
   // jika ada body dan belum ada content-type, maka set ke "application/json"
@@ -21,7 +21,7 @@ async function http({url, body, opts = {}}) {
 
   // fetch data dari url + endpoint
   const res = await fetch(`${BASE_URL}${url}`, {
-    // method → pakai opts.method jika ada, jika tidak: POST kalau ada body, GET kalau tidak ada body.
+    // method → pakai opts.method jika ada, jika tidak ada, maka set: POST kalau ada body, GET kalau tidak ada body.
     method: opts.method || (body ? "POST" : "GET"),
     headers,
     // jika ada body, convert ke json string
@@ -43,7 +43,7 @@ async function http({url, body, opts = {}}) {
     const message =
       typeof data === "object" && data?.message ? data.message : "Request gagal";
     const error = new Error(message);
-    console.log(error)
+    // console.log(error)
     error.status = res.status;
     error.data = data;
     throw error;

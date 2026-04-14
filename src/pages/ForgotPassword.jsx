@@ -1,5 +1,5 @@
-import image from "../../public/assets/images/register.png"
-import brandLogo from "../../public/assets/images/brand-brown.png"
+import image from "../../assets/images/register.png"
+import brandLogo from "../../assets/images/brand-brown.png"
 import InputAuth from "../components/InputAuth"
 import Button from "../components/Button";
 import { AiOutlineMail } from "react-icons/ai";
@@ -32,7 +32,7 @@ export function ForgotPassword() {
             if (step === 1) {
                 // Generate OTP
                 const response = await http({
-                    url: "/users/forgot-password",
+                    url: "/auth/forgot-password",
                     body: { email: values.email }
                 })
                 setEmail(values.email)
@@ -43,7 +43,7 @@ export function ForgotPassword() {
             } else if (step === 2) {
                 // Verifikasi OTP
                 const response = await http({
-                    url: "/users/forgot-password/verifikasi-otp",
+                    url: "/auth/forgot-password/verifikasi-otp",
                     body: {
                         email: email,
                         code: parseInt(values.code)
@@ -61,7 +61,7 @@ export function ForgotPassword() {
                 }
 
                 const response = await http({
-                    url: "/users/forgot-password/change",
+                    url: "/auth/forgot-password/change",
                     body: {
                         email: email,
                         newPassword: values.newPassword,

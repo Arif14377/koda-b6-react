@@ -3,12 +3,12 @@ import { useEffect, useState, useCallback } from "react"
 import { FaPlus } from "react-icons/fa6";
 import { CiCircleRemove } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import BCA from "../../public/assets/images/bca.svg"
-import BRI from "../../public/assets/images/bri.svg"
-import DANA from "../../public/assets/images/dana.svg"
-import GoPay from "../../public/assets/images/gopay.svg"
-import OVO from "../../public/assets/images/ovo.svg"
-import Paypal from "../../public/assets/images/paypal.svg"
+import BCA from "../../assets/images/bca.svg"
+import BRI from "../../assets/images/bri.svg"
+import DANA from "../../assets/images/dana.svg"
+import GoPay from "../../assets/images/gopay.svg"
+import OVO from "../../assets/images/ovo.svg"
+import Paypal from "../../assets/images/paypal.svg"
 import Footer from "../components/Footer"
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, resetCart } from "../redux/reducers/cartReducer"

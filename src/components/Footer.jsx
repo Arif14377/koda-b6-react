@@ -1,4 +1,4 @@
-import brandLogo from "../../public/assets/images/brand-brown.png"
+import brandLogo from "../../assets/images/brand-brown.png"
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { TiSocialInstagram } from "react-icons/ti";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ function Footer() {
             <div className="flex flex-col gap-6 md:col-span-3">
                 <img src={brandLogo} alt="Logo Coffee Shop" className="w-fit"/>
                 <p>Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
-                <p>&Copy; 2026</p>
+                <p>&copy; 2026</p>
             </div>
             <div className="flex flex-col gap-4 w-fit"> 
                 <h2 className="font-medium [&~a]:text-[#6d6d6d] text-lg">Product</h2>

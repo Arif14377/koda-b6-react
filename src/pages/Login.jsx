@@ -1,5 +1,5 @@
-import image from "../../public/assets/images/register.png";
-import brandLogo from "../../public/assets/images/brand-brown.png";
+import image from "../../assets/images/register.png";
+import brandLogo from "../../assets/images/brand-brown.png";
 import InputAuth from "../components/InputAuth";
 import Button from "../components/Button";
 import { AiOutlineMail } from "react-icons/ai";
@@ -122,6 +122,11 @@ function Login() {
               <FcGoogle />
               Google
             </SsoSign>
+          </div>
+          <div className="text-sm mt-4">
+            <p className="">Akun Demo:</p>
+            <p>Admin: arif.rahman@gmail.com || 1234 (belum ada fitur admin dan otorisasi)</p>
+            <p>User: arif20@mail.com || 123456</p>
           </div>
         </div>
       </div>

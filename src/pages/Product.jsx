@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar"
-import bgTitle from "../../public/assets/images/bg-header-product.jpg"
+import bgTitle from "../../assets/images/bg-header-product.jpg"
 import PromoSlider from '../components/PromoSlider';
 import FilterSidebar from '../components/FilterSidebar';
 import ProductCardUpdated from '../components/ProductCardUpdated';

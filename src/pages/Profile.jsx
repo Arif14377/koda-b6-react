@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import profilePhoto from "../../public/assets/images/ambassador.png";
+import profilePhoto from "../../assets/images/ambassador.png";
 import { updateSessionUser } from "../redux/reducers/sessionReducer";
 import { updateUserById } from "../redux/reducers/userReducer";
 

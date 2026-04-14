@@ -1,7 +1,7 @@
 import React from 'react';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import ReusableTitle from './ReusableTitle.jsx'
-import illustration from "../../public/assets/images/illustration.png"
+import illustration from "../../assets/images/illustration.png"
 
 const PromoSlider = () => {
   const promos = [

@@ -1,5 +1,5 @@
-import image from "../../public/assets/images/register.png";
-import brandLogo from "../../public/assets/images/brand-brown.png";
+import image from "../../assets/images/register.png";
+import brandLogo from "../../assets/images/brand-brown.png";
 import InputAuth from "../components/InputAuth";
 import { BsPerson } from "react-icons/bs";
 import Button from "../components/Button";
