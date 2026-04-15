@@ -26,6 +26,8 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: ghcr.io/arif14377/koda-b6-frontend:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
