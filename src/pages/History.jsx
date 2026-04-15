@@ -92,7 +92,7 @@ function History() {
                             ) : (
                                 history.map(order => (
                                     <div key={order.id} className="bg-white p-5 rounded-xl shadow-sm flex flex-col md:flex-row items-center gap-6">
-                                        <div className="w-full md:w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                                        <div className="w-full md:w-24 h-24 bg-gray-100 rounded-lg overflow-hidden shrink-0">
                                             {order.image ? (
                                                 <img src={order.image.startsWith('http') ? order.image : `${import.meta.env.VITE_API_URL || 'http://localhost:8888'}/uploads/products/${order.image}`} alt="Product" className="w-full h-full object-cover" />
                                             ) : (
@@ -102,7 +102,7 @@ function History() {
                                             )}
                                         </div>
                                         
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-grow w-full">
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 grow w-full">
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex items-center gap-2 text-gray-400">
                                                     <BsBoxSeam size={14} />
