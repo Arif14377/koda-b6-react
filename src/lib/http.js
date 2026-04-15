@@ -14,8 +14,12 @@ async function http({url, body, opts = {}}) {
     // console.log("authorization: ", headers.Authorization)
   }
 
+  // Check if body is FormData
+  const isFormData = body instanceof FormData;
+
   // jika ada body dan belum ada content-type, maka set ke "application/json"
-  if (body && !headers["Content-Type"]) {
+  // TAPI jika body adalah FormData, jangan set Content-Type (biarkan browser handle multipart/form-data)
+  if (body && !headers["Content-Type"] && !isFormData) {
     headers["Content-Type"] = "application/json";
   }
 
@@ -25,7 +29,8 @@ async function http({url, body, opts = {}}) {
     method: opts.method || (body ? "POST" : "GET"),
     headers,
     // jika ada body, convert ke json string
-    body: body ? JSON.stringify(body) : undefined,
+    // TAPI jika FormData, kirim langsung tanpa stringify
+    body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
   });
 
   // console.log("res: \n", res)
