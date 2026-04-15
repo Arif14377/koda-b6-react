@@ -24,13 +24,18 @@ function Home() {
     const [idx, setIdx] = useState(0)
     useEffect(() => {
         async function products() {
-            const result = await http(
-                {
-                    url: "/products",
-                    opts: {method: "GET"}
-                }
-            )
-            setData(result.results)
+            try {
+                const result = await http(
+                    {
+                        url: "/products",
+                        opts: {method: "GET"}
+                    }
+                )
+                setData(result.results || [])
+            } catch (err) {
+                console.error("Failed to load products:", err)
+                setData([])
+            }
         }
         products()
         async function reviews() {
