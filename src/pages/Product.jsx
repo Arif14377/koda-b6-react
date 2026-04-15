@@ -27,10 +27,11 @@ function Product() {
                 });
                 console.log("API Result:", result); // Debug log
                 if (result.success) {
-                    setProducts(result.results);
+                    setProducts(result.results || []);
                 }
             } catch (error) {
                 console.error("Gagal mengambil produk:", error);
+                setProducts([]);
             }
         }
         fetchProducts();

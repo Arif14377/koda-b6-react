@@ -84,6 +84,7 @@ function ProductDetail() {
                     }
                 } catch (error) {
                     console.error("Gagal mengambil rekomendasi:", error)
+                    setRecommendations([])
                 }
             }
             fetchRecommendations()
