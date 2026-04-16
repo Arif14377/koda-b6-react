@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = "http://68.183.226.223:20202";
 
 async function http({url, body, opts = {}}) {
   // console.log("url: ", url)
